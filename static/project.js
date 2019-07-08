@@ -15,11 +15,14 @@ function contentLoaded() {
 
 function submission() {
   var query = document.getElementById("query").value;
+  var numResults = document.getElementById("numResults").value;
   console.log(query);
+  console.log(numResults);
+
   document.getElementById("loaderid").style.visibility = "visible";
-  document.getElementById("loadingMessage").innerHTML = "Running your query...";
-  //document.getElementById("displayQuery").innerHTML = query;
-  $.getJSON($SCRIPT_ROOT + '/map', {query: query}, function(data) {
+  document.getElementById("loadingMessage").innerHTML = "Running your search...";
+
+  $.getJSON($SCRIPT_ROOT + '/map', {query: query, numResults: numResults}, function(data) {
         document.getElementById("loaderid").style.visibility = "hidden";
         document.getElementById("loadingMessage").innerHTML = "";
         plotMarkers(data);

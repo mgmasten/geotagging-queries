@@ -10,7 +10,9 @@ def search():
 @app.route('/map')
 def map():
     query = request.args.get('query')
-    return jsonify(locations=backend.get_locations(query))
+    numResults = int(request.args.get('numResults'))
+    print(numResults)
+    return jsonify(locations=backend.get_locations(query, numResults))
 
 if __name__ == '__main__':
    app.run(debug = True)

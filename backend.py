@@ -3,10 +3,10 @@ import re
 import socket
 import requests
 
-def get_locations(query):
+def get_locations(query, numResults):
     results = []
 
-    for result in search(query, stop=20, pause=2):
+    for result in search(query, stop=numResults, pause=2):
         results.append(result)
 
     results = list(set(results)) # Remove duplicates

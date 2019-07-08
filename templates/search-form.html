@@ -32,6 +32,16 @@
         width: 200px
    }
 
+   #numResults {
+        width: 50px;
+   }
+
+   #submit {
+        width:10em;
+        height:2em;
+   }
+
+
    #loaderid {
         visibility: hidden;
         position: absolute;
@@ -80,13 +90,20 @@
 
 <body>
      <h1 id="title">Geotagging Keywords Project</h1>
-     <h3 id="instructions">Enter your search phrase here</h3>
-     <form action="#">
-       <input type="text" id="query">
-       <input type="submit" value="Search" id='submit'>
-     </form>
+     <h3 id="instructions">Instructions</h3>
+     <form action="#" id="inputForm">
+               <label for="query">Search term</label>
+               <input type="text" id="query">
 
-     <!--<p id="displayQuery"></p>-->
+               <span style="display:inline-block; width: 2%;"></span>
+
+               <label for="numResults">Number of Results</label>
+               <input type="number" id="numResults">
+
+               <span style="display:inline-block; width: 2%;"></span>
+
+               <input type="submit" value="Search" id="submit">
+     </form>
 
      <div id="mapid"></div>
 
