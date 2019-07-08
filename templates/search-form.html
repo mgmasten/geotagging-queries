@@ -6,15 +6,22 @@
   <style>
    /* Always set the map height explicitly to define the size of the div
     * element that contains the map. */
-   #map {
+   /*#map {
       height: 75%;
       margin: 1% 15% 4% 15%;
-   }
+   }*/
    /* Optional: Makes the sample page fill the window. */
+   #mapid {
+        height: 75%;
+        margin: 1% 15% 4% 15%;
+        z-index: -1;
+
+    }
    html, body {
       height: 100%;
       margin: 2%;
       padding: 0;
+      font-family:Helvetica;
    }
 
    body {
@@ -24,7 +31,51 @@
    #query {
         width: 200px
    }
+
+   #loaderid {
+        visibility: hidden;
+        position: absolute;
+        left: 45%;
+        top: 48%;
+        z-index: 1;
+        border-top: 16px solid #010000; /* Blue */
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        animation: spin 4s linear infinite;
+   }
+
+   #loadingMessage {
+        position: absolute;
+        left: 43%;
+        top: 69%;
+        z-index: 2;
+        font-size: x-large;
+        font-weight: bold;
+   }
+
+   @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+   }
+
+   @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
   </style>
+
+  <!--Leaflet CSS-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin=""/>
+
+  <!-- Leaflet Javascript file, must come after CSS inclusion -->
+  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+   crossorigin=""></script>
+
 </head>
 
 <body>
@@ -37,22 +88,12 @@
 
      <!--<p id="displayQuery"></p>-->
 
-     <div id="map"></div>
-     <script>
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 2,
-          center: new google.maps.LatLng(2.8,-187.3),
-          mapTypeId: 'terrain'
-        });
-      }
+     <div id="mapid"></div>
 
-     </script>
+     <div class="loader" id="loaderid"></div>
+     <p id="loadingMessage"></p>
 
-     <script async defer
-     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQ_ngjNFL25FN-lu9khmDARgaTKWmqeYg&callback=initMap">
-     </script>
+    <script src="../static/createMap.js"></script>
 
      <script src="../static/project.js"></script>
      <script type=text/javascript src="{{
