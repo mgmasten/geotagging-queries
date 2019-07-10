@@ -32,9 +32,10 @@ function submission() {
 // Loop through the results array and place a marker for each
 // set of coordinates.
 function plotMarkers(results) {
+ markersGroup.clearLayers();
  for (var i = 0; i < results.locations.length; i++) {
     var coords = results.locations[i];
     var latLng = L.latLng(coords['lat'], coords['lon']);
-    L.marker(latLng, {icon: redIcon}).addTo(mymap);
+    L.marker(latLng, {icon: redIcon}).addTo(markersGroup);
     };
 }
