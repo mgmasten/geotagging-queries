@@ -16,8 +16,6 @@ function contentLoaded() {
 function submission() {
   var query = document.getElementById("query").value;
   var numResults = document.getElementById("numResults").value;
-  console.log(query);
-  console.log(numResults);
 
   document.getElementById("loaderid").style.visibility = "visible";
   document.getElementById("loadingMessage").innerHTML = "Running your search...";
