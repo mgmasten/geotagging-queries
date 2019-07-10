@@ -11,8 +11,8 @@ def search():
 def map():
     query = request.args.get('query')
     numResults = int(request.args.get('numResults'))
-    print(numResults)
-    return jsonify(locations=backend.get_locations(query, numResults))
+    results = backend.get_locations(query, numResults)
+    return jsonify(locations=results[0], frequencies=results[1])
 
 if __name__ == '__main__':
    app.run(debug = True)

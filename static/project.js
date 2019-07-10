@@ -33,7 +33,23 @@ function plotMarkers(results) {
  markersGroup.clearLayers();
  for (var i = 0; i < results.locations.length; i++) {
     var coords = results.locations[i];
-    var latLng = L.latLng(coords['lat'], coords['lon']);
-    L.marker(latLng, {icon: redIcon}).addTo(markersGroup);
-    };
+    var frequency = results.frequencies[i];
+    //var latLng = L.latLng(coords['lat'], coords['lon']);
+    var latLng = L.latLng(coords[0], coords[1]);
+    var marker = L.marker(latLng, {icon: redIcon}).addTo(markersGroup);
+
+    if (frequency > 1) {
+         var popupMessage = frequency.toString() + " results";
+    } else {
+         var popupMessage = frequency.toString() + " result"
+    }
+
+    marker.bindPopup(popupMessage);
+    marker.on('mouseover', function (e) {
+            this.openPopup();
+    });
+    marker.on('mouseout', function (e) {
+            this.closePopup();
+    });
+  };
 }
