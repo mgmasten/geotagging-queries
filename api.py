@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def search():
-    return render_template('search-form.html')
+    return render_template('main-page.html')
 
 @app.route('/map')
 def map():
