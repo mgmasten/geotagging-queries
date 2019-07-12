@@ -1,5 +1,5 @@
 // Create map object
-var mymap = L.map('mapid', {
+var mymap = L.map('mapId', {
      worldCopyJump: true,
      maxBounds: [ [-90, -180], [90, 180]]
      }).setView([2.8, -210], 2);
