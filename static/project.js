@@ -1,3 +1,5 @@
+// Where should this go?
+// Define a red marker icon
 var redIcon = new L.Icon({
   iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
@@ -17,39 +19,33 @@ function submission() {
   var query = document.getElementById("query").value;
   var numResults = document.getElementById("numResults").value;
 
-  document.getElementById("loaderid").style.visibility = "visible";
-  document.getElementById("loadingMessage").innerHTML = "Running your search...";
+  document.getElementById("loaderAndMessage").style.visibility = "visible";
 
-  $.getJSON($SCRIPT_ROOT + '/map', {query: query, numResults: numResults}, function(data) {
-        document.getElementById("loaderid").style.visibility = "hidden";
-        document.getElementById("loadingMessage").innerHTML = "";
+  //$SCRIPT_ROOT = request.script_root | tojson | safe;     // Is it okay to eliminate this?
+  $.getJSON('/map', {query: query, numResults: numResults}, function(data) {
+        document.getElementById("loaderId").style.visibility = "hidden";
+        document.getElementById("loadingMessageId").innerHTML = "";
         plotMarkers(data);
       })
 }
 
-// Loop through the results array and place a marker for each
-// set of coordinates.
+// Loop through the results array and place a marker for each set of coordinates.
 function plotMarkers(results) {
- markersGroup.clearLayers();
- for (var i = 0; i < results.locations.length; i++) {
-    var coords = results.locations[i];
-    var frequency = results.frequencies[i];
-    //var latLng = L.latLng(coords['lat'], coords['lon']);
-    var latLng = L.latLng(coords[0], coords[1]);
-    var marker = L.marker(latLng, {icon: redIcon}).addTo(markersGroup);
+     markersGroup.clearLayers();  // Clear previous markers
+     for (var i = 0; i < results.locations.length; i++) {
+          var coords = results.locations[i];
+          var frequency = results.frequencies[i];
+          var latLng = L.latLng(coords[0], coords[1]);
+          var marker = L.marker(latLng, {icon: redIcon}).addTo(markersGroup);
 
-    if (frequency > 1) {
-         var popupMessage = frequency.toString() + " results";
-    } else {
-         var popupMessage = frequency.toString() + " result"
-    }
+          var popupMessage = frequency.toString() + " result"
+          if (frequency > 1) {
+               popupMessage = popupMessage + "s";
+          }
 
-    marker.bindPopup(popupMessage);
-    marker.on('mouseover', function (e) {
-            this.openPopup();
-    });
-    marker.on('mouseout', function (e) {
-            this.closePopup();
-    });
-  };
+          // Bind popup. Opens on mouseover, closes on mouseout
+          marker.bindPopup(popupMessage);
+          marker.on('mouseover', function (e) { this.openPopup(); });
+          marker.on('mouseout', function (e) { this.closePopup(); });
+     };
 }

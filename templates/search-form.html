@@ -1,122 +1,58 @@
 <!doctype html>
 
 <html>
+
 <head>
-  <title>Geo Query Project</title>
-  <style>
-   /* Always set the map height explicitly to define the size of the div
-    * element that contains the map. */
-   /*#map {
-      height: 75%;
-      margin: 1% 15% 4% 15%;
-   }*/
-   /* Optional: Makes the sample page fill the window. */
-   #mapid {
-        height: 75%;
-        margin: 1% 15% 4% 15%;
-        z-index: 0;
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta name="description" content="Geotagging results of google searches">
+     <meta name="keywords" content="geotagging, search">
+     <meta name="author" content="Matti Masten">
 
-    }
-   html, body {
-      height: 100%;
-      margin: 2%;
-      padding: 0;
-      font-family:Helvetica;
-   }
+     <title>Geo Search Terms</title>
 
-   body {
-        text-align: center
-   }
+     <!-- General styling -->
+     <link rel="stylesheet" href="../static/project.css" type="text/css" media="screen" />
 
-   #query {
-        width: 200px
-   }
+     <!--Leaflet CSS-->
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
 
-   #numResults {
-        width: 50px;
-   }
+     <!-- Leaflet Javascript file, must come after CSS inclusion -->
+     <script defer src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin="">
+     </script>
 
-   #submit {
-        width:10em;
-        height:2em;
-   }
+     <!-- Create initial map -->
+     <script defer src="../static/createMap.js"></script>
 
-
-   #loaderid {
-        visibility: hidden;
-        position: absolute;
-        left: 45%;
-        top: 48%;
-        z-index: 1;
-        border-top: 16px solid #010000; /* Blue */
-        border-radius: 50%;
-        width: 150px;
-        height: 150px;
-        animation: spin 4s linear infinite;
-   }
-
-   #loadingMessage {
-        position: absolute;
-        left: 43%;
-        top: 69%;
-        z-index: 2;
-        font-size: x-large;
-        font-weight: bold;
-   }
-
-   @-webkit-keyframes spin {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-   }
-
-   @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-  </style>
-
-  <!--Leaflet CSS-->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
-   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-   crossorigin=""/>
-
-  <!-- Leaflet Javascript file, must come after CSS inclusion -->
-  <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
-   integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
-   crossorigin=""></script>
+     <!-- Jquery and input processing scripts -->
+     <script defer src="../static/jquery-3.4.1.js"></script>
+     <script defer src="../static/project.js"></script>
 
 </head>
 
 <body>
-     <h1 id="title">Geotagging Keywords Project</h1>
+     <h1 id="title">Geotagging Search Terms</h1>
      <h3 id="instructions">Instructions</h3>
      <form action="#" id="inputForm">
-               <label for="query">Search term</label>
-               <input type="text" id="query">
+          <label for="query">Search term</label>
+          <input type="text" id="query">
 
-               <span style="display:inline-block; width: 2%;"></span>
+          <span class="smallSpace"></span>
 
-               <label for="numResults">Number of Results</label>
-               <input type="number" id="numResults" value=10>
+          <label for="numResults">Number of Results</label>
+          <input type="number" id="numResults" value=10>
 
-               <span style="display:inline-block; width: 2%;"></span>
+          <span class="smallSpace"></span>
 
-               <input type="submit" value="Search" id="submit">
+          <input type="submit" value="Search" id="submit">
      </form>
 
-     <div id="mapid"></div>
+     <div id="mapId"></div>
 
-     <div class="loader" id="loaderid"></div>
-     <p id="loadingMessage"></p>
-
-    <script src="../static/createMap.js"></script>
-
-     <script src="../static/project.js"></script>
-     <script type=text/javascript src="{{
-       url_for('static', filename='jquery-3.4.1.js') }}"></script>
-     <script type=text/javascript>
-       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-     </script>
+     <div id="loaderAndMessage">
+          <div class="loader" id="loaderId"></div>
+          <p class="loadingMessage" id="loadingMessageId">Running your search...</p>
+     </div>
 </body>
+
 </html>

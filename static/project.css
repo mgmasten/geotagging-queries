@@ -1,0 +1,66 @@
+html, body {
+   height: 100%;
+   margin: 2%;
+   font-family: Helvetica;
+   text-align: center;
+}
+
+#mapId {
+     height: 75%;
+     margin: 1% 15% 4% 15%; /* top, right, bottom, left */
+     z-index: 0;
+ }
+
+#query {
+     width: 200px
+}
+
+#numResults {
+     width: 50px;
+}
+
+#submit {
+     width:10em;
+     height:2em;
+}
+
+#loaderAndMessage {
+     visibility: hidden; /* Only appears during loading */
+     z-index: 1;
+     margin-left: auto;
+     margin-right: auto;
+}
+
+.loader {
+     position: absolute;
+     left: 45%;
+     top: 48%;
+     border-top: 16px solid #010000; /* Black */
+     border-radius: 50%;
+     width: 150px;
+     height: 150px;
+     animation: spin 4s linear infinite;
+}
+
+.loadingMessage {
+     position: absolute;
+     left: 43%;
+     top: 69%;
+     font-size: x-large;
+     font-weight: bold;
+}
+
+.smallSpace {
+     display: inline-block;
+     width: 2%;
+}
+
+@-webkit-keyframes spin {
+     0% { -webkit-transform: rotate(0deg); }
+     100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+     0% { transform: rotate(0deg); }
+     100% { transform: rotate(360deg); }
+}
