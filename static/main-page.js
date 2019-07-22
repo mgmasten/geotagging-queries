@@ -16,9 +16,19 @@ mymap = L.map('mapId', {
      maxBounds: [ [-90, -180], [90, 180]]
      }).setView([2.8, -210], 2);
 
-// Link to tile source
-mapLanguage = $("input[type='radio'][name='mapLanguage']:checked").val();
-generateMap(mapLanguage);
+var mapLanguage = "local";
+
+// Link to tile sources
+localLangsLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+     id: 'local-langs-map',
+     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+     subdomains: 'abc'
+}).addTo(mymap);
+
+englishLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+     id: 'english-map',
+     attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+});
 
 // Make LayerGroup for markers for easy clearing
 markersGroup = L.layerGroup().addTo(mymap);
@@ -47,30 +57,12 @@ function changeMapLanguage() {
      if (languageChecked != mapLanguage) {
           mapLanguage = languageChecked;
           if (mapLanguage == "local") {
-               L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    id: 'world-map',
-                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-                    subdomains: 'abc'
-               }).addTo(mymap);
+               englishLayer.remove();
+               localLangsLayer.addTo(mymap);
           } else if (mapLanguage == "english") {
-               L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-                    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
-               }).addTo(mymap);
+               localLangsLayer.remove();
+               englishLayer.addTo(mymap);
           }
-     }
-}
-
-function generateMap(mapLanguage) {
-     if (mapLanguage == "local") {
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-               id: 'world-map',
-               attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
-               subdomains: 'abc'
-          }).addTo(mymap);
-     } else if (mapLanguage == "english") {
-          L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-               attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
-          }).addTo(mymap);
      }
 }
 
