@@ -19,12 +19,12 @@ function submission() {
   var query = document.getElementById("query").value;
   var numResults = document.getElementById("numResults").value;
 
-  document.getElementById("loaderAndMessage").style.visibility = "visible";
+  document.getElementById("loaderContainer").style.visibility = "visible";
 
   //$SCRIPT_ROOT = request.script_root | tojson | safe;     // Is it okay to eliminate this?
   $.getJSON('/map', {query: query, numResults: numResults}, function(data) {
-        document.getElementById("loaderId").style.visibility = "hidden";
-        document.getElementById("loadingMessageId").innerHTML = "";
+        document.getElementById("loaderContainer").style.visibility = "hidden";
+        /*document.getElementById("loadingMessageId").innerHTML = "";*/
         plotMarkers(data);
       })
 }

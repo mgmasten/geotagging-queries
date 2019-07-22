@@ -24,31 +24,44 @@ html, body {
      height:2em;
 }
 
-#loaderAndMessage {
+#loaderContainer {
      visibility: hidden; /* Only appears during loading */
-     z-index: 1;
+     height: 75%;
+     width: 60%;
      position: absolute;
-     left: 43%;
-     top:48%;
+     top: 19%;
+     left: 4%;
+     margin: 0% 15% 0% 15%;
+     z-index: 1;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+#loaderAndMessage {
+     /*z-index: 1;
+     /*position: absolute;
+     left: 35%;
+     top:40%;*/
+     height: 300px;
+     width: 300px;
 }
 
 .loader {
-     position: absolute;
-     /*left: 45%;
-     top: 48%;*/
+     float: top;
      border-top: 16px solid #010000; /* Black */
      border-radius: 50%;
      width: 150px;
      height: 150px;
+     margin: 0 25% 0 25%;
      animation: spin 4s linear infinite;
 }
 
 .loadingMessage {
-     position: absolute;
-     /*left: 43%;
-     top: 69%;*/
      font-size: x-large;
      font-weight: bold;
+     float: bottom;
+     margin: 10% 0 0 0;
 }
 
 .smallSpace {
