@@ -21,11 +21,11 @@
      <script defer src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin="">
      </script>
 
-     <!-- Create initial map -->
-     <script defer src="../static/createMap.js"></script>
-
-     <!-- Jquery and input processing scripts -->
+     <!-- Jquery -->
      <script defer src="../static/jquery-3.4.1.js"></script>
+     <!-- Create initial map -->
+     <!-- <script defer src="../static/createMap.js"></script> -->
+     <!-- Query processing script -->
      <script defer src="../static/main-page.js"></script>
 
 </head>
@@ -55,6 +55,12 @@
                <p class="loadingMessage" id="loadingMessageId">Running your search...</p>
           </div>
      </div>
+
+     <form action="#" id="mapLanguage">
+          <p>Map language</p>
+          <input type="radio" name="mapLanguage" value="local" checked="checked"> Local<br>
+          <input type="radio" name="mapLanguage" value="english"> English
+     </form>
 </body>
 
 </html>

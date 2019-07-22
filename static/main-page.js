@@ -10,9 +10,23 @@ var redIcon = new L.Icon({
 });
 
 document.addEventListener("DOMContentLoaded", contentLoaded);
+// Create map object
+mymap = L.map('mapId', {
+     worldCopyJump: true,
+     maxBounds: [ [-90, -180], [90, 180]]
+     }).setView([2.8, -210], 2);
+
+// Link to tile source
+mapLanguage = $("input[type='radio'][name='mapLanguage']:checked").val();
+generateMap(mapLanguage);
+
+// Make LayerGroup for markers for easy clearing
+markersGroup = L.layerGroup().addTo(mymap);
+
 
 function contentLoaded() {
      document.getElementById("submit").addEventListener("click", submission);
+     document.getElementById("mapLanguage").addEventListener("click", changeMapLanguage);
 }
 
 function submission() {
@@ -24,9 +38,40 @@ function submission() {
   //$SCRIPT_ROOT = request.script_root | tojson | safe;     // Is it okay to eliminate this?
   $.getJSON('/map', {query: query, numResults: numResults}, function(data) {
         document.getElementById("loaderContainer").style.visibility = "hidden";
-        /*document.getElementById("loadingMessageId").innerHTML = "";*/
         plotMarkers(data);
       })
+}
+
+function changeMapLanguage() {
+     var languageChecked = $("input[type='radio'][name='mapLanguage']:checked").val();
+     if (languageChecked != mapLanguage) {
+          mapLanguage = languageChecked;
+          if (mapLanguage == "local") {
+               L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    id: 'world-map',
+                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+                    subdomains: 'abc'
+               }).addTo(mymap);
+          } else if (mapLanguage == "english") {
+               L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+               }).addTo(mymap);
+          }
+     }
+}
+
+function generateMap(mapLanguage) {
+     if (mapLanguage == "local") {
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+               id: 'world-map',
+               attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+               subdomains: 'abc'
+          }).addTo(mymap);
+     } else if (mapLanguage == "english") {
+          L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+               attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+          }).addTo(mymap);
+     }
 }
 
 // Loop through the results array and place a marker for each set of coordinates.
