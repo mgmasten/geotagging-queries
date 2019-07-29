@@ -9,6 +9,8 @@ var redIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
+$("#resultLanguage").chosen();
+
 document.addEventListener("DOMContentLoaded", contentLoaded);
 // Create map object
 mymap = L.map('mapId', {
@@ -42,14 +44,28 @@ function contentLoaded() {
 function submission() {
   var query = document.getElementById("query").value;
   var numResults = document.getElementById("numResults").value;
+  var resultLanguage = $("#resultLanguage").chosen().val();
+  console.log(resultLanguage);
 
   document.getElementById("loaderContainer").style.visibility = "visible";
+  console.log({data: {query: query, numResults: numResults, resultLanguage: resultLanguage}});
 
   //$SCRIPT_ROOT = request.script_root | tojson | safe;     // Is it okay to eliminate this?
-  $.getJSON('/map', {query: query, numResults: numResults}, function(data) {
+  /*$.post('/map', {query: query, numResults: numResults}, function(data) {
         document.getElementById("loaderContainer").style.visibility = "hidden";
         plotMarkers(data);
-      })
+   }, "json");*/
+
+   $.ajax({
+    type: 'POST',
+    url: '/map',
+    contentType: 'application/json; charset=utf-8',
+    dataType: 'json',
+    data: JSON.stringify({query, numResults, resultLangugage})
+}).done(function(data) {
+      document.getElementById("loaderContainer").style.visibility = "hidden";
+      plotMarkers(data);
+});
 }
 
 function changeMapLanguage() {

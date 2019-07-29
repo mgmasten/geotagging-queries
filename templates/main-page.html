@@ -13,7 +13,7 @@
 
      <!-- General styling -->
      <link rel="stylesheet" href="../static/main-page.css" type="text/css" media="screen" />
-
+     <link rel="stylesheet" href="../static/chosen.css" type="text/css" media="screen" />
      <!--Leaflet CSS-->
      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
 
@@ -23,8 +23,8 @@
 
      <!-- Jquery -->
      <script defer src="../static/jquery-3.4.1.js"></script>
-     <!-- Create initial map -->
-     <!-- <script defer src="../static/createMap.js"></script> -->
+     <!-- Chosen -->
+     <script defer src="../static/chosen.jquery.js"></script>
      <!-- Query processing script -->
      <script defer src="../static/main-page.js"></script>
 
@@ -44,6 +44,12 @@
 
           <span class="smallSpace"></span>
 
+          <label for="resultLanguage">Language of Results</label>
+          <select multiple id="resultLanguage">
+               <option value="lang_fr">French</option>
+               <option value="lang_en">English</option>
+          </select>
+
           <input type="submit" value="Search" id="submit">
      </form>
 
@@ -61,6 +67,8 @@
           <input type="radio" name="mapLanguage" value="local" checked="checked"> Local<br>
           <input type="radio" name="mapLanguage" value="english"> English
      </form>
+
+     <p id="inputDisplay"></p>
 </body>
 
 </html>

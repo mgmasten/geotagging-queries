@@ -7,12 +7,16 @@ app = Flask(__name__)
 def search():
     return render_template('main-page.html')
 
-@app.route('/map')
+@app.route('/map', methods=['POST'])
 def map():
     query = request.args.get('query')
     numResults = int(request.args.get('numResults'))
-    results = backend.get_locations(query, numResults)
-    return jsonify(locations=results[0], frequencies=results[1])
+    #searchOptions = request.args.get('resultLanguage')
+    #data = request.get_json()
+    #print("Data:", data)
+    #print("Search options:", searchOptions)
+    #results = backend.get_locations(query, numResults, searchOptions)
+    #return jsonify(locations=results[0], frequencies=results[1])
 
 if __name__ == '__main__':
    app.run(debug = True)

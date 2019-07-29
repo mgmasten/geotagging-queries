@@ -4,9 +4,11 @@ import socket
 import requests
 import collections
 
-def get_locations(query, numResults):
+def get_locations(query, numResults, searchOptions):
     coordinates = []
     pattern = re.compile('//(.*?)/') # Create pattern to capture domain
+
+    print(searchOptions)
 
     for result in search(query, stop=numResults, pause=2):
         substring = pattern.search(result)
