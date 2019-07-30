@@ -39,10 +39,6 @@ html, body {
 }
 
 #loaderAndMessage {
-     /*z-index: 1;
-     /*position: absolute;
-     left: 35%;
-     top:40%;*/
      height: 300px;
      width: 300px;
 }
