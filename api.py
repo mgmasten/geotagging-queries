@@ -11,14 +11,9 @@ def search():
 
 @app.route('/map', methods=['POST'])
 def map():
-    #query = request.args.get('query')
-    #numResults = int(request.args.get('numResults'))
-    #searchOptions = request.args.get('resultLanguage')
     data = request.get_json()
-    print("Data:", data)
-    #print("Search options:", searchOptions)
-    #results = backend.get_locations(query, numResults, searchOptions)
-    #return jsonify(locations=results[0], frequencies=results[1])
+    results = backend.get_locations(data['query'], int(data['numResults']), data['searchOptions'])
+    return jsonify(locations=results[0], frequencies=results[1])
 
 
 if __name__ == '__main__':

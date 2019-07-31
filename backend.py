@@ -9,9 +9,17 @@ def get_locations(query, numResults, searchOptions):
     coordinates = []
     pattern = re.compile('//(.*?)/')  # Create pattern to capture domain
 
-    print(searchOptions)
+    extra_params = {'lr': searchOptions.get('resultLanguage'),
+                    'cr': searchOptions.get('resultCountry'),
+                    'gl': searchOptions.get('searchCountry'),
+                    'filter': searchOptions.get('filter'),
+                    'cookies': searchOptions.get('cookies')}
 
-    for result in search(query, stop=numResults, pause=2):
+    lang = searchOptions.get('searchLanguage')
+    if lang is None:
+        lang = 'en'
+
+    for result in search(query, lang=lang, stop=numResults, pause=2, extra_params=extra_params):
         substring = pattern.search(result)
         clean_result = result[(substring.span()[0]+2): (substring.span()[1] - 1)]
         ip = socket.gethostbyname(clean_result)

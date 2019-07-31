@@ -9,14 +9,20 @@ var redIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
-$('#resultLanguage').chosen();
+$('.multiSelect').chosen({
+     width: "50%"
+});
+
+$('.select').chosen({
+     width: "50%"
+});
 
 document.addEventListener('DOMContentLoaded', contentLoaded);
 // Create map object
 mymap = L.map('mapId', {
   worldCopyJump: true,
   maxBounds: [[-90, -180], [90, 180]]
-}).setView([2.8, -210], 2);
+}).setView([2.8, -210], 1);
 
 var mapLanguage = "local";
 
@@ -36,21 +42,35 @@ var englishLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/serv
 markersGroup = L.layerGroup().addTo(mymap);
 
 function contentLoaded() {
-  document.getElementById('submit').addEventListener('click', submission);
+  $('.submitButton').on('click', submission);
   document.getElementById('mapLanguage').addEventListener('click', changeMapLanguage);
+
+  $('.multiSelect').on('change', function(event, params) {
+    if (params.selected == 'selectAll') {
+      $('option').prop('selected', true);
+      $(this).trigger('chosen:updated');
+    } else if (params.deselected == 'selectAll') {
+      $('option').prop('selected', false);
+      $(this).trigger('chosen:updated');
+    }
+  });
 }
 
 function submission() {
   var query = document.getElementById('query').value;
   var numResults = document.getElementById('numResults').value;
   var resultLanguage = $('#resultLanguage').chosen().val();
-  console.log(resultLanguage);
+  var resultCountry = $('#resultCountry').chosen().val();
+  var searchLanguage = $('#searchLanguage').chosen().val();
+  var searchCountry = $('#searchCountry').chosen().val();
+  var cookies = $('#cookies').prop("checked");
+  var filter = !($('#filtering').prop("checked") ? '1' : '0');
 
   document.getElementById('loaderContainer').style.visibility = "visible";
-  console.log({ data: { query: query, numResults: numResults, resultLanguage: resultLanguage } });
+  //console.log({query, numResults, searchOptions: {resultLanguage, resultCountry}} );
 
   //$SCRIPT_ROOT = request.script_root | tojson | safe;     // Is it okay to eliminate this?
-  let payload = {query, numResults, resultLanguage};
+  let payload = {query, numResults, searchOptions: { resultLanguage, resultCountry, searchLanguage, searchCountry, cookies, filter} };
   $.ajax('/map', {
     type: 'post',
     data: JSON.stringify(payload),
