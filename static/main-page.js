@@ -64,13 +64,14 @@ function submission() {
   var searchLanguage = $('#searchLanguage').chosen().val();
   var searchCountry = $('#searchCountry').chosen().val();
   var cookies = $('#cookies').prop("checked");
-  var filter = !($('#filtering').prop("checked") ? '1' : '0');
+  var filter = $('#filtering').prop("checked") ? '0' : '1';
+  var safe = $('#safeSearch').prop("checked") ? 'on' : 'off';
 
   document.getElementById('loaderContainer').style.visibility = "visible";
   //console.log({query, numResults, searchOptions: {resultLanguage, resultCountry}} );
 
   //$SCRIPT_ROOT = request.script_root | tojson | safe;     // Is it okay to eliminate this?
-  let payload = {query, numResults, searchOptions: { resultLanguage, resultCountry, searchLanguage, searchCountry, cookies, filter} };
+  let payload = {query, numResults, searchOptions: { resultLanguage, resultCountry, searchLanguage, searchCountry, cookies, filter, safe} };
   $.ajax('/map', {
     type: 'post',
     data: JSON.stringify(payload),
