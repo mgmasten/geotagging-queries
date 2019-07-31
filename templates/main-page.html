@@ -364,7 +364,7 @@
                     <option value="cs">Czech</option>
                     <option value="da">Danish</option>
                     <option value="nl">Dutch</option>
-                    <option value="en">English</option>
+                    <option value="en" selected>English</option>
                     <option value="eo">Esperanto</option>
                     <option value="et">Estonian</option>
                     <option value="fo">Faroese</option>
@@ -435,6 +435,7 @@
                <label for="resultCountry">Search Country</label>
                <span class="smallSpace"></span>
                <select id="searchCountry" class="select" data-placeholder="Choose country...">
+                    <option value="">None</option>
                     <option value="af">Afghanistan</option>
                     <option value="al">Albania</option>
                     <option value="dz">Algeria</option>
@@ -679,7 +680,7 @@
                </select>
 
                <br><br><br>
-               <label for="cookies">Use Cookies</label>
+               <label for="cookies">Cookies</label>
                <span class="smallSpace"></span>
                <label class="switch">
                     <input type="checkbox" id="cookies">
@@ -687,10 +688,10 @@
                </label>
 
                <span class="smallSpace"></span>
-               <label for="filtering">Filtering Off</label>
+               <label for="filtering">Filtering</label>
                <span class="smallSpace"></span>
                <label class="switch">
-                    <input type="checkbox" id="filtering">
+                    <input type="checkbox" id="filtering" checked>
                     <span class="slider round"></span>
                </label>
 
