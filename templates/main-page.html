@@ -51,7 +51,7 @@
           <div id="mapId"></div>
 
           <form action='#' id="searchOptions">
-               <br><h3>Google Search Options</h3>
+               <br><br><h3>Google Search Options</h3>
                <label for="resultLanguage">Result Language</label>
                <span class="smallSpace"></span>
                <select class="multiSelect" multiple id="resultLanguage" data-placeholder="Choose languages...">
@@ -92,6 +92,12 @@
                     <option value="lang_sv">Swedish</option>
                     <option value="lang_tr">Turkish</option>
                </select>
+
+               <span class="smallSpace"></span>
+               <div class="tooltip">
+                 <img class="infoTooltip" src="../static/info-tooltip.png" alt="More info">
+                 <span class="tooltiptext">Restricts to sites written in this language (mostly)</span>
+               </div>
 
                <br><br>
                <label for="resultCountry">Result Country</label>
@@ -342,6 +348,12 @@
                     <option value="countryZW">Zimbabwe</option>
                </select>
 
+               <span class="smallSpace"></span>
+               <div class="tooltip">
+                 <img class="infoTooltip" src="../static/info-tooltip.png" alt="More info">
+                 <span class="tooltiptext">Tooltip text</span>
+               </div>
+
                <br><br>
                <label for="searchLanguage">Search Language</label>
                <span class="smallSpace"></span>
@@ -430,6 +442,12 @@
                     <option value="xh">Xhosa</option>
                     <option value="zu">Zulu</option>
                </select>
+
+               <span class="smallSpace"></span>
+               <div class="tooltip">
+                 <img class="infoTooltip" src="../static/info-tooltip.png" alt="More info">
+                 <span class="tooltiptext">Tooltip text</span>
+               </div>
 
                <br><br>
                <label for="resultCountry">Search Country</label>
@@ -679,6 +697,12 @@
                     <option value="zw">Zimbabwe</option>
                </select>
 
+               <span class="smallSpace"></span>
+               <div class="tooltip">
+                 <img class="infoTooltip" src="../static/info-tooltip.png" alt="More info">
+                 <span class="tooltiptext">Tooltip text</span>
+               </div>
+
                <br><br><br>
                <label for="cookies">Cookies</label>
                <span class="smallSpace"></span>
@@ -688,12 +712,25 @@
                </label>
 
                <span class="smallSpace"></span>
+               <div class="tooltip">
+                 <img class="infoTooltip" src="../static/info-tooltip.png" alt="More info">
+                 <span class="tooltiptext">Tooltip text</span>
+               </div>
+
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
                <label for="filtering">Filtering</label>
                <span class="smallSpace"></span>
                <label class="switch">
                     <input type="checkbox" id="filtering" checked>
                     <span class="slider round"></span>
                </label>
+
+               <span class="smallSpace"></span>
+               <div class="tooltip">
+                 <img class="infoTooltip" src="../static/info-tooltip.png" alt="More info">
+                 <span class="tooltiptext">Tooltip text</span>
+               </div>
 
                <br><br>
                <label for="safe">Safe Search</label>
@@ -702,6 +739,12 @@
                     <input type="checkbox" id="safe">
                     <span class="slider round"></span>
                </label>
+
+               <span class="smallSpace"></span>
+               <div class="tooltip">
+                 <img class="infoTooltip" src="../static/info-tooltip.png" alt="More info">
+                 <span class="tooltiptext">Tooltip text</span>
+               </div>
 
 
                <br><br><input type="submit" class="submitButton" value="Apply">

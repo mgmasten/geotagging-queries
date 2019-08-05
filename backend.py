@@ -2,11 +2,13 @@ from googlesearch import search
 import re
 import socket
 import requests
-import collections
+from collections import Counter, defaultdict
 
 
 def get_locations(query, numResults, searchOptions):
     coordinates = []
+    results = []
+    ret = []
     pattern = re.compile('//(.*?)/')  # Create pattern to capture domain
 
     extra_params = {'lr': searchOptions.get('resultLanguage'),
@@ -26,10 +28,19 @@ def get_locations(query, numResults, searchOptions):
         clean_result = result[(substring.span()[0]+2): (substring.span()[1] - 1)]
         ip = socket.gethostbyname(clean_result)
         r = requests.get(url='https://extreme-ip-lookup.com/json/' + ip)
-        coordinates.append((r.json()['lat'], r.json()['lon']))
+        coordinate = (r.json()['lat'], r.json()['lon'])
+        coordinates.append(coordinate)
+        ret.append((coordinate, result))
+    #print(results)
+    #print(coordinates)
 
-    countedCoordinates = collections.Counter(coordinates)  # Count number of results at each location
-    coordinates = list(countedCoordinates.keys())
-    counts = list(countedCoordinates.values())
+    # countedCoordinates = Counter(coordinates)  # Count number of results at each location
+    # coordinates = list(countedCoordinates.keys())
+    # counts = list(countedCoordinates.values())
 
-    return coordinates, counts
+    d = defaultdict(list)
+    for k, *v in ret:
+        d[k].append(v)
+
+    d = tuple(d.items())
+    return [i[0] for i in d], [len(i[1]) for i in d], [i[1] for i in d]

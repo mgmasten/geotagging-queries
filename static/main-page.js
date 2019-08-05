@@ -112,6 +112,9 @@ function plotMarkers(results) {
       popupMessage = popupMessage + "s";
     }
 
+    //popupMessage += '  \u25B6';
+    popupMessage += '<br><br>' + results.urls[i].join('<br>');
+
     // Bind popup. Opens on mouseover, closes on mouseout
     marker.bindPopup(popupMessage);
     marker.on('mouseover', function (e) { this.openPopup(); });

@@ -13,7 +13,7 @@ def search():
 def map():
     data = request.get_json()
     results = backend.get_locations(data['query'], int(data['numResults']), data['searchOptions'])
-    return jsonify(locations=results[0], frequencies=results[1])
+    return jsonify(locations=results[0], frequencies=results[1], urls=results[2])
 
 
 if __name__ == '__main__':
