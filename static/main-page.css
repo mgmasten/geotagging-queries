@@ -14,16 +14,38 @@ html, body {
  }
 
 #query {
-     width: 200px
+     width: 500px;
+     height: 30px;
+     font-size: 16pt;
+}
+
+#queryLabel {
+     font-size:16pt;
 }
 
 #numResults {
-     width: 50px;
+     width: 60px;
+     height: 20px;
+     font-size: 12pt;
 }
 
-#submit {
-     width:10em;
-     height:2em;
+#numResultsLabel {
+     font-size: 14pt;
+}
+
+.submitButton {
+     -moz-appearance: none;
+     -webkit-appearance: none;
+     width: 100px;
+     height: 35px;
+     background: #2196F3;
+     padding: 0px 0px 2px 0px;
+     vertical-align: top;
+     font-size: 14pt;
+     font-weight: normal;
+     color: #fff;
+     border: 1px solid #ccc;
+     border-radius: 5%;
 }
 
 #mapAndOptionsContainer {
@@ -81,7 +103,7 @@ html, body {
 
 .smallSpace {
      display: inline-block;
-     width: 2%;
+     width: 5px;
 }
 
 @-webkit-keyframes spin {
@@ -218,4 +240,9 @@ input:checked + .slider:before {
 /* Bold, main part of tooltip explanation */
 .tooltip-main {
      font-weight: bold;
+}
+
+.note {
+     font-size: 8pt;
+     border-bottom: 1px dotted black;
 }

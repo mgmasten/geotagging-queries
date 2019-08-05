@@ -34,17 +34,23 @@
      <h1 id="title">Geotagging Search Terms</h1>
      <h3 id="instructions">Instructions</h3>
      <form action="#" id="inputForm">
-          <label for="query">Search term</label>
+          <label for="query" id="queryLabel">Search phrase</label>
+          <span class="smallSpace"></span>
           <input type="text" id="query">
 
           <span class="smallSpace"></span>
+          <input type="submit" class="submitButton" value="Search">
 
-          <label for="numResults">Number of Results</label>
+          <br><br>
+
+          <label for="numResults" id=numResultsLabel>Number of Results</label>
+          <span class="smallSpace"></span>
           <input type="number" id="numResults" value=10>
 
           <span class="smallSpace"></span>
-
-          <input type="submit" class="submitButton" value="Search">
+          <div class="tooltip note">Search times
+            <span class="tooltiptext"><p class="tooltip-main">Increasing the number of results greatly increases search time<br></p>10 results should take several seconds.<br> 100 results will take 5-10 times longer.</span>
+          </div>
      </form>
 
      <div id="mapAndOptionsContainer">
@@ -52,6 +58,7 @@
 
           <form action='#' id="searchOptions">
                <br><br><h3>Google Search Options</h3>
+               <br>
                <label for="resultLanguage">Result Language</label>
                <span class="smallSpace"></span>
                <select class="multiSelect" multiple id="resultLanguage" data-placeholder="Choose languages...">
