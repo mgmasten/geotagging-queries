@@ -22,7 +22,7 @@ def get_locations(query, numResults, searchOptions):
 
     safe = searchOptions.get('safe')
 
-    for result in search(query, lang=lang, stop=numResults, pause=2, cookies=searchOptions.get('cookies'), safe=safe, extra_params=extra_params):
+    for result in search(query, lang=lang, stop=numResults, pause=2, cookies=False, safe=safe, extra_params=extra_params):
         substring = pattern.search(result)
         clean_result = result[(substring.span()[0]+2): (substring.span()[1] - 1)]
         ip = socket.gethostbyname(clean_result)
