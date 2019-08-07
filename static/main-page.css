@@ -6,11 +6,11 @@ html, body {
 }
 
 #mapId {
-     height: 80%;
-     width: 50%;
-     margin: 5% 3% 4% 1%; /* top, right, bottom, left */
+     height: 90%;
+     width: 90%;
+     margin: 3% auto 3% auto; /* top, right, bottom, left */
      z-index: 0;
-     float: left;
+     float: none;
  }
 
 #query {
@@ -33,6 +33,12 @@ html, body {
      font-size: 14pt;
 }
 
+#toggleSearchOptions {
+  height: 20px;
+  width: 150px;
+  font-size: 12pt;
+}
+
 .submitButton {
      -moz-appearance: none;
      -webkit-appearance: none;
@@ -49,14 +55,16 @@ html, body {
 }
 
 #mapAndOptionsContainer {
-     height: 50%
+     height: 60%
 }
 
 #mapLanguage {
-     float: left;
-     width: 50%;
+     margin: 0 auto 0 auto;
+     float: none;
+     width: 40%;
 }
 #searchOptions {
+     display: none;
      float: right;
      width: 45%;
 }
