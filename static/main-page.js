@@ -20,8 +20,8 @@ $('.select').chosen({
 document.addEventListener('DOMContentLoaded', contentLoaded);
 // Create map object
 mymap = L.map('mapId', {
-  worldCopyJump: true,
-  maxBounds: [[-90, -180], [90, 180]]
+  worldCopyJump: true
+  /*maxBounds: [[-90, -180], [90, 180]]*/
 }).setView([2.8, -210], 1);
 
 var mapLanguage = "local";
@@ -54,6 +54,8 @@ function contentLoaded() {
       $(this).trigger('chosen:updated');
     }
   });
+
+  $('.popupArrow').on('click', showResults);
 }
 
 function submission() {
@@ -111,12 +113,37 @@ function plotMarkers(results) {
       popupMessage = popupMessage + "s";
     }
 
-    //popupMessage += '  \u25B6';
-    popupMessage += '<br><br>' + results.urls[i].join('<br>');
+    popupMessage += '&nbsp&nbsp&nbsp<button class="popupArrow" onclick=showResults()>view</button>';
+    //\u26BC
+
+    popupMessage += '<div class="resultsDisplay"><br><br><ul>'
+    for (var j = 0; j < results.urls[i].length; j++) {
+      popupMessage += '<li><a class="myLinks" href=' + results.urls[i][j][0] + ' target="_blank">' + results.urls[i][j][1] + '</a><span class="domain">  (' + results.urls[i][j][2] + ')</span></li>'
+}
+
+    popupMessage += '</ul></div>'
 
     // Bind popup. Opens on mouseover, closes on mouseout
-    marker.bindPopup(popupMessage);
+    var popup = L.popup().setContent(popupMessage);
+    marker.bindPopup(popup);
+
     marker.on('mouseover', function (e) { this.openPopup(); });
-    marker.on('mouseout', function (e) { this.closePopup(); });
+    /*marker.on('mouseout', function (e) { this.closePopup(); });*/
   }
+}
+
+function showResults() {
+  //$('.resultsDisplay').css('display', 'inline');
+  markersGroup.eachLayer(function (layer) {
+    if (layer.isPopupOpen()) {
+      content = layer.getPopup().getContent();
+      index = content.indexOf('<ul');
+      index2 = content.indexOf('</div>');
+      content = content.substr(index, index2);
+      console.log(content);
+      latLng = layer.getPopup().getLatLng();
+      L.popup({maxWidth: 400}).setContent(content).setLatLng(latLng).openOn(mymap);
+      return;
+    }
+});
 }

@@ -246,3 +246,33 @@ input:checked + .slider:before {
      font-size: 8pt;
      border-bottom: 1px dotted black;
 }
+
+li{
+  margin: 10px 0;
+}
+
+a.myLinks:link {
+  text-decoration: none;
+}
+
+a.myLinks:visited {
+  color: #935A95;
+}
+
+a.myLinks:hover {
+  text-decoration: underline;
+}
+
+a.myLinks:active {
+  color: green;
+}
+
+.domain {
+  color: #aaa;
+  font-size: 8pt;
+  white-space: pre;
+}
+
+.resultsDisplay {
+  display: none;
+}
