@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', contentLoaded);
 mymap = L.map('mapId', {
   worldCopyJump: true
   /*maxBounds: [[-90, -180], [90, 180]]*/
-}).setView([2.8, -210], 1);
+}).setView([20, -210], 2);
 
 var mapLanguage = "local";
 
@@ -119,7 +119,7 @@ function plotMarkers(results) {
     popupMessage += '<div class="resultsDisplay"><br><br><ul>'
     for (var j = 0; j < results.urls[i].length; j++) {
       popupMessage += '<li><a class="myLinks" href=' + results.urls[i][j][0] + ' target="_blank">' + results.urls[i][j][1] + '</a><span class="domain">  (' + results.urls[i][j][2] + ')</span></li>'
-}
+ }
 
     popupMessage += '</ul></div>'
 
@@ -146,4 +146,21 @@ function showResults() {
       return;
     }
 });
+}
+
+function toggleSearchOptions() {
+  if ($('#searchOptions').css('display') == 'none') {
+    $('#searchOptions').css('display', 'inline');
+    $('#mapId').css('width', '50%');
+    $('#mapId').css('float', 'left');
+    $('#mapLanguage').css('bottom', '0');
+    $('#mapLanguage').css('float', 'left');
+    $('#toggleSearchOptions').prop('value', 'Hide search options');
+} else if ($('#searchOptions').css('display') != 'none') {
+    $('#searchOptions').css('display', 'none');
+    $('#mapId').css('width', '90%');
+    $('#mapId').css('float', 'none');
+    $('#mapLanguage').css('float', 'none');
+    $('#toggleSearchOptions').prop('value', 'Show search options');
+  }
 }
