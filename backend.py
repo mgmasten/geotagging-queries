@@ -1,4 +1,4 @@
-from googlesearch import search
+from googlesearch2 import search
 import re
 import socket
 import requests
