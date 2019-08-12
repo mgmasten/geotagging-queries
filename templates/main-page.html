@@ -57,8 +57,16 @@
      <input type="button" id="toggleSearchOptions" value="Show search options" onclick=toggleSearchOptions()></button>
 
      <div id="mapAndOptionsContainer">
-          <div id="mapId"></div>
+           <form action="#" id="mapLanguage">
+                Map language
+                <span class="smallSpace"></span>
+                <input type="radio" name="mapLanguage" value="local" checked="checked"> Local
+                <span class="smallSpace"></span>
+                <input type="radio" name="mapLanguage" value="english"> English
+          </form>
 
+          <div id="mapId"></div>
+          
           <form action='#' id="searchOptions">
                <br><br><h3>Google Search Options</h3>
                <br>
@@ -756,14 +764,6 @@
                <p class="loadingMessage" id="loadingMessageId">Running your search...</p>
           </div>
      </div>
-
-     <form action="#" id="mapLanguage">
-          Map language
-          <span class="smallSpace"></span>
-          <input type="radio" name="mapLanguage" value="local" checked="checked"> Local
-          <span class="smallSpace"></span>
-          <input type="radio" name="mapLanguage" value="english"> English
-     </form>
 
 </body>
 

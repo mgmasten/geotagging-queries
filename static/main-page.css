@@ -8,7 +8,7 @@ html, body {
 #mapId {
      height: 90%;
      width: 90%;
-     margin: 3% auto 3% auto; /* top, right, bottom, left */
+     margin: 1% auto 1% auto; /* top, right, bottom, left */
      z-index: 0;
      float: none;
  }
@@ -59,9 +59,10 @@ html, body {
 }
 
 #mapLanguage {
+     position: relative;
      margin: 0 auto 0 auto;
-     float: none;
      width: 40%;
+     top: 105%;
 }
 #searchOptions {
      display: none;

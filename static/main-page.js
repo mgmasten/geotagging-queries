@@ -153,14 +153,11 @@ function toggleSearchOptions() {
     $('#searchOptions').css('display', 'inline');
     $('#mapId').css('width', '50%');
     $('#mapId').css('float', 'left');
-    $('#mapLanguage').css('bottom', '0');
-    $('#mapLanguage').css('float', 'left');
     $('#toggleSearchOptions').prop('value', 'Hide search options');
 } else if ($('#searchOptions').css('display') != 'none') {
     $('#searchOptions').css('display', 'none');
     $('#mapId').css('width', '90%');
     $('#mapId').css('float', 'none');
-    $('#mapLanguage').css('float', 'none');
     $('#toggleSearchOptions').prop('value', 'Show search options');
   }
 }
