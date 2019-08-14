@@ -11,18 +11,27 @@ def get_locations(query, numResults, searchOptions):
     ret = []
     pattern = re.compile('//(.*?)/')  # Create pattern to capture domain
 
-    extra_params = {'lr': searchOptions.get('resultLanguage'),
-                    'cr': searchOptions.get('resultCountry'),
-                    'gl': searchOptions.get('searchCountry'),
-                    'filter': searchOptions.get('filter')}
+    extra_params = {'lr': searchOptions['resultLanguage'],
+                    'cr': searchOptions['resultCountry'],
+                    'gl': searchOptions['searchCountry'],
+                    'filter': searchOptions['filter']}
 
-    lang = searchOptions.get('searchLanguage')
-    if lang is None:
-        lang = 'en'
+    lang = searchOptions['searchLanguage']
 
-    safe = searchOptions.get('safe')
+    tbs = searchOptions['dateRestrict']
+    if tbs == 'qdr:d':
+        tbs = '0'
 
-    for result in search(query, lang=lang, stop=numResults, pause=2, cookies=False, safe=safe, extra_params=extra_params):
+    domains = searchOptions['domains']
+    if domains:
+        domains = domains.split()
+
+    domainAction = searchOptions['domainAction']
+
+    safe = searchOptions['safe']
+    tpe = searchOptions['resultType']
+
+    for result in search(query, lang=lang, tbs=tbs, safe=safe, cookies=False, stop=numResults, domains=domains, domainAction=domainAction, pause=2, extra_params=extra_params, tpe=tpe):
         substring = pattern.search(result[0])  # Search for pattern in url
         name = result[1]  # Grab the name that Google displays
         clean_result = result[0][(substring.span()[0]+2): (substring.span()[1] - 1)]

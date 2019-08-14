@@ -213,8 +213,8 @@ def extractName(a):
 
 
 # Returns a list of urls and site names (as displayed by Google)
-def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, cookies=False, start=0,
-           stop=10, domains=None, pause=2.0, only_standard=False,
+def search(query, tld='com', lang='', tbs='0', safe='off', num=10, cookies=False, start=0,
+           stop=10, domains=None, domainAction='include', pause=2.0, only_standard=False,
            extra_params={}, tpe='', user_agent=None):
     """
     Search the given query string using Google.
@@ -231,6 +231,8 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, cookies=Fal
     :param int stop: Last result to retrieve. Cannot use None to search forever
     :param list of str or None domains: A list of web domains to constrain
         the search.
+    :param str either "include" or "exclude". Whether domains in list should be
+        included or excluded
     :param float pause: Lapse to wait between HTTP requests.
         A lapse too long will make the search slow, but a lapse too short may
         cause Google to block your IP. Your mileage may vary!
@@ -267,8 +269,12 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, cookies=Fal
 
     # Prepare domain list if it exists.
     if domains:
-        query = query + ' ' + ' OR '.join(
+        if domainAction == 'include':
+            query = query + ' ' + ' OR '.join(
                                 'site:' + domain for domain in domains)
+        elif domainAction == 'exclude':
+            query = query + ' ' + ' AND '.join(
+                                '-site:' + domain for domain in domains)
 
     # Prepare the search string.
     query = quote_plus(query)
@@ -312,13 +318,15 @@ def search(query, tld='com', lang='en', tbs='0', safe='off', num=10, cookies=Fal
             if v:
                 # If multiple values for parameter, use boolean OR
                 if isinstance(v, list):
-                    url += url + '&' + k + '=' + '|'.join(v)
+                    url += '&' + k + '=' + '|'.join(v)
                 else:
-                    url += url + ('&%s=%s' % (k, v))
+                    url += ('&%s=%s' % (k, v))
 
         # Sleep between requests.
         time.sleep(pause)
 
+        print(url)
+        print()
         # Request the Google Search results page.
         html = get_page(url, user_agent)
         #print(html)

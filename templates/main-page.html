@@ -66,9 +66,10 @@
           </form>
 
           <div id="mapId"></div>
-          
-          <form action='#' id="searchOptions">
-               <br><br><h3>Google Search Options</h3>
+
+          <!-- <form action='#' id="searchOptions"> -->
+          <div id="searchOptions">
+               <h3>Google Search Options</h3>
                <br>
                <label for="resultLanguage">Result Language</label>
                <span class="smallSpace"></span>
@@ -376,7 +377,8 @@
                <br><br>
                <label for="searchLanguage">Search Language</label>
                <span class="smallSpace"></span>
-               <select id="searchLanguage" class="select" data-placeholder="Choose language...">
+               <select id="searchLanguage" class="wideSelect">
+                    <option value="">Not specified</option>
                     <option value="af">Afrikaans</option>
                     <option value="sq">Albanian</option>
                     <option value="sm">Amharic</option>
@@ -395,7 +397,7 @@
                     <option value="cs">Czech</option>
                     <option value="da">Danish</option>
                     <option value="nl">Dutch</option>
-                    <option value="en" selected>English</option>
+                    <option value="en">English</option>
                     <option value="eo">Esperanto</option>
                     <option value="et">Estonian</option>
                     <option value="fo">Faroese</option>
@@ -469,10 +471,10 @@
                </div>
 
                <br><br>
-               <label for="resultCountry">Search Country</label>
+               <label for="searchCountry">Search Country</label>
                <span class="smallSpace"></span>
                <span class="smallSpace"></span>
-               <select id="searchCountry" class="select" data-placeholder="Choose country...">
+               <select id="searchCountry" class="wideSelect">
                     <option value="">None</option>
                     <option value="af">Afghanistan</option>
                     <option value="al">Albania</option>
@@ -723,7 +725,29 @@
                  <span class="tooltiptext"><p class="tooltip-main">Geolocation of user<br></p>Setting this boosts results with the same country of origin.</span>
                </div>
 
-               <br><br><br>
+               <br><br>
+               <label for="resultType">Result Type</label>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <select id="resultType" class="wideSelect">
+                  <option value="">Any</option>
+                  <option value="isch">Images</option>
+                  <option value="vid">Videos</option>
+                  <option value="nws">News</option>
+                  <option value="shop">Shopping</option>
+                  <option value="bks">Books</option>
+                  <option value="app">Applications</option>
+                  <option value="fin">Finance</option>
+               </select>
+
+               <br><br>
+
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
                <label for="filtering">Filtering</label>
                <span class="smallSpace"></span>
                <label class="switch">
@@ -752,9 +776,83 @@
                  <span class="tooltiptext"><p class="tooltip-main">Avoids explicit results</p></span>
                </div>
 
+               <br><br>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <label for="domains">Domains</label>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <input id="domains" type="text"></input>
+
+               <span class="smallSpace"></span>
+               <div class="tooltip">
+                 <img class="infoTooltip" src="../static/info-tooltip.png" alt="More info">
+                 <span class="tooltiptext"><p class="tooltip-main">Domains to be included or excluded</p>Can be sites (e.g. wikipedia.org) or top-level domains (e.g. .com, .org, .edu). Separate multiple with spaces.</span>
+               </div>
+
+               <br><br>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <input type="radio" name="domainAction" class="domainAction" value="include" checked> Include</input>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <input type="radio" name="domainAction" class="domainAction" value="exclude"> Exclude</input>
+
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+
+
+               <br><br>
+               <label for="dateNumber">Date Restrict</label>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <input id="dateNumber" type="number"></input>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <select id="dateUnit">
+                 <option value="d">days</option>
+                 <option value="w">weeks</option>
+                 <option value="m">months</option>
+                 <option value="y">years</option>
+               </select>
+
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <span class="smallSpace"></span>
+               <div class="tooltip">
+                 <img class="infoTooltip" src="../static/info-tooltip.png" alt="More info">
+                 <span class="tooltiptext"><p class="tooltip-main">Restricts results to those updated in this time period</p></span>
+               </div>
+
+               <!-- <br><br>
+               <label for="additionalOptions">Additional Options</label>
+               <input type="text"></input> -->
 
                <br><br><br><input type="submit" class="submitButton" value="Apply">
-          </form>
+          </div>
+          <!-- </form> -->
 
      </div>
 

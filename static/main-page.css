@@ -39,6 +39,14 @@ html, body {
   font-size: 12pt;
 }
 
+#domains {
+  width: 50%;
+}
+
+#dateNumber {
+  width: 15%;
+}
+
 .submitButton {
      -moz-appearance: none;
      -webkit-appearance: none;

@@ -13,9 +13,14 @@ $('.multiSelect').chosen({
      width: "50%"
 });
 
-$('.select').chosen({
+$('.wideSelect').chosen({
      width: "50%"
 });
+
+$('#dateUnit').chosen({
+  disable_search: true,
+  width: "15%"
+})
 
 document.addEventListener('DOMContentLoaded', contentLoaded);
 // Create map object
@@ -65,14 +70,21 @@ function submission() {
   var resultCountry = $('#resultCountry').chosen().val();
   var searchLanguage = $('#searchLanguage').chosen().val();
   var searchCountry = $('#searchCountry').chosen().val();
+  var resultType = $('#resultType').chosen().val();
   var filter = $('#filtering').prop("checked") ? '0' : '1';
   var safe = $('#safeSearch').prop("checked") ? 'on' : 'off';
+  var domains = document.getElementById('domains').value;
+  //var domainAction = document.querySelector('input[name="domainAction"]:checked').value;
+  //var domainAction = document.querySelector(".domainAction:checked");
+  var domainAction = $("input[type='radio'][name='domainAction']:checked").val();
+  console.log(domainAction);
+  var dateRestrict = 'qdr:' + $('#dateUnit').chosen().val() + document.getElementById('dateNumber').value;
 
   document.getElementById('loaderContainer').style.visibility = "visible";
-  //console.log({query, numResults, searchOptions: {resultLanguage, resultCountry}} );
+  console.log({ resultLanguage, resultCountry, searchLanguage, searchCountry, resultType, filter, safe, domains, domainAction, dateRestrict} );
 
   //$SCRIPT_ROOT = request.script_root | tojson | safe;     // Is it okay to eliminate this?
-  let payload = {query, numResults, searchOptions: { resultLanguage, resultCountry, searchLanguage, searchCountry, filter, safe} };
+  let payload = {query, numResults, searchOptions: { resultLanguage, resultCountry, searchLanguage, searchCountry, resultType, filter, safe, domains, domainAction, dateRestrict} };
   $.ajax('/map', {
     type: 'post',
     data: JSON.stringify(payload),
@@ -140,7 +152,6 @@ function showResults() {
       index = content.indexOf('<ul');
       index2 = content.indexOf('</div>');
       content = content.substr(index, index2);
-      console.log(content);
       latLng = layer.getPopup().getLatLng();
       L.popup({maxWidth: 400}).setContent(content).setLatLng(latLng).openOn(mymap);
       return;
