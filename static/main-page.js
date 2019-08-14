@@ -140,6 +140,12 @@ function plotMarkers(results) {
     marker.bindPopup(popup);
 
     marker.on('mouseover', function (e) { this.openPopup(); });
+
+    if ($('#searchOptions').css('display') == 'none') {
+      mymap.setZoom(2);
+    } else {
+      mymap.setZoom(1);
+    }
     /*marker.on('mouseout', function (e) { this.closePopup(); });*/
   }
 }
@@ -165,7 +171,7 @@ function toggleSearchOptions() {
     $('#mapId').css('width', '50%');
     $('#mapId').css('float', 'left');
     $('#toggleSearchOptions').prop('value', 'Hide search options');
-} else if ($('#searchOptions').css('display') != 'none') {
+} else {
     $('#searchOptions').css('display', 'none');
     $('#mapId').css('width', '90%');
     $('#mapId').css('float', 'none');
