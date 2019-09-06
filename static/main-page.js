@@ -85,6 +85,9 @@ function placeLegend() {
     return $('#legend').get(0);
   };
   legend.addTo(mymap);
+
+  // Stop map from zooming in when legend is clicked
+  L.DomEvent.disableClickPropagation(L.DomUtil.get('legend'));
 }
 
 //
