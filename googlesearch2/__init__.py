@@ -331,8 +331,6 @@ def search(query, tld='com', lang='', tbs='0', safe='off', num=10, cookies=False
         # Sleep between requests.
         time.sleep(pause)
 
-        print(url)
-        print()
         # Request the Google Search results page.
         html = get_page(url, user_agent, cookies)
         #print(html)
