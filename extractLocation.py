@@ -70,7 +70,7 @@ def extractName(a):
 # a postalcode using regexes for that country.
 # Regexes were created by combining the following sources:
 #       - Frank's Compulsive Guide to Postal Addresses (http://www.columbia.edu/~fdc/postal/)
-#       - This Stack Overflow post (http://cldr.unicode.org/index/downloads). See also location-data/postalcodes/regex/CLDR_regex
+#       - CLDR postalcode regexes (http://cldr.unicode.org/index/downloads). See also location-data/postalcodes/regex/CLDR_regex
 #       - The geonames dataset (location-data/country-info.txt)
 
 # Uses geonames dataset (location-data/postalcodes, see geonames_readme.txt) to assign a lat/lon to a postalcode
