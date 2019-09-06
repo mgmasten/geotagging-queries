@@ -77,7 +77,6 @@ def extractName(a):
 # Another option is https://nominatim.org/release-docs/develop/api/Search/, but coverage
 # was less comprehensive so I switched to the geonames dataset
 def find_location_from_page(webpage_text, country_guesses):
-    print(webpage_text)
     for country in [x[0] for x in country_guesses.items()]:
         if country in backend.supported_countries:
             for regex_entry in regex_dict[country]:
@@ -87,7 +86,6 @@ def find_location_from_page(webpage_text, country_guesses):
 
                 if results:
                     for result in results:
-                        print(result)
                         # Ideally would translate words into english for matching with region names
                         # Not currently working
                         # english_result = [x.text for x in translator.translate(result, dest='en')]
