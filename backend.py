@@ -72,94 +72,96 @@ def get_locations(query, numResults, ipAddress, scraping, searchOptions):
     translator = Translator()
 
     # Get the results (urls and names) from googlesearch's search function
-    for result in search(query, lang=search_lang, tbs=tbs, safe=safe, cookies=False, stop=numResults, domains=domains, domainAction=domainAction, pause=2, extra_params=extra_params, tpe=tpe):
-        url = result[0]
-        name = result[1]  # Get the name that Google displays
+    results = search(query, lang=search_lang, tbs=tbs, safe=safe, cookies=False, stop=numResults, domains=domains, domainAction=domainAction, pause=2, extra_params=extra_params, tpe=tpe)
+    if results:
+        for result in results:
+            url = result[0]
+            name = result[1]  # Get the name that Google displays
 
-        # Extract domain
-        substring = domain_pattern.search(url)
-        domain = url[(substring.span()[0]+2): (substring.span()[1] - 1)]
+            # Extract domain
+            substring = domain_pattern.search(url)
+            domain = url[(substring.span()[0]+2): (substring.span()[1] - 1)]
 
-        if ipAddress == 'true':
-            coordinate = ip_geolocate(domain)
-            ip_coordinates.append(coordinate)
-            return_name = lambda x : x if x else 'No name'
-            ip_results.append((coordinate, result[0], return_name(name), domain))
+            if ipAddress == 'true':
+                coordinate = ip_geolocate(domain)
+                ip_coordinates.append(coordinate)
+                return_name = lambda x : x if x else 'No name'
+                ip_results.append((coordinate, result[0], return_name(name), domain))
 
-        if scraping == 'true':
-            # Extract tld and get the associated country
-            substring = tld_pattern.search(domain)
-            tld = domain[substring.span()[0]:substring.span()[1]]
-            tld_country = tlds_dict.get(tld)
+            if scraping == 'true':
+                # Extract tld and get the associated country
+                substring = tld_pattern.search(domain)
+                tld = domain[substring.span()[0]:substring.span()[1]]
+                tld_country = tlds_dict.get(tld)
 
-            # Extract website name
-            substring = site_name_pattern.search(domain)
-            website_name = domain[substring.span()[0]:(substring.span()[1] - 1)]
+                # Extract website name
+                substring = site_name_pattern.search(domain)
+                website_name = domain[substring.span()[0]:(substring.span()[1] - 1)]
 
-            # Detect language of name and website name
-            if name is not None:
-                detect1 = translator.detect(name)
-                return_name = name
-            else:
-                return_name = 'No name'
-            detect2 = translator.detect(website_name)
+                # Detect language of name and website name
+                if name is not None:
+                    detect1 = translator.detect(name)
+                    return_name = name
+                else:
+                    return_name = 'No name'
+                detect2 = translator.detect(website_name)
 
-            languages = set()  # Language guesses for page
-            language_countries = set()  # Country guesses for page
+                languages = set()  # Language guesses for page
+                language_countries = set()  # Country guesses for page
 
-            # If a resultLanguage was set, add it and all countries it is spoken in as guesses
-            if searchOptions['resultLanguage']:
-                languages = languages | set(searchOptions['resultLanguage'][5:len(searchOptions['resultLanguage'])-1])
-                langs = [languages_dict.get(x) for x in searchOptions['resultLanguage']]
-                if langs:
-                    language_countries = language_countries | set(langs)
+                # If a resultLanguage was set, add it and all countries it is spoken in as guesses
+                if searchOptions['resultLanguage']:
+                    languages = languages | set(searchOptions['resultLanguage'][5:len(searchOptions['resultLanguage'])-1])
+                    langs = [languages_dict.get(x) for x in searchOptions['resultLanguage']]
+                    if langs:
+                        language_countries = language_countries | set(langs)
 
-            # If a searchLanguage was set, add it as a language guess
-            if search_lang:
-                languages.add(search_lang)
+                # If a searchLanguage was set, add it as a language guess
+                if search_lang:
+                    languages.add(search_lang)
 
-            # If there is a high confidence in the name and website_name language detections,
-            # add them and the countries they are spoken in as guesses
-            if detect1 and detect1.confidence > 0.75:
-                languages.add(detect1.lang)
-                langs = languages_dict.get(detect1.lang)
-                if langs:
-                    language_countries = language_countries | set(langs)
-            if detect2.confidence > 0.75:
-                languages.add(detect2.lang)
-                langs = languages_dict.get(detect2.lang)
-                if langs:
-                    language_countries = language_countries | set(langs)
+                # If there is a high confidence in the name and website_name language detections,
+                # add them and the countries they are spoken in as guesses
+                if detect1 and detect1.confidence > 0.75:
+                    languages.add(detect1.lang)
+                    langs = languages_dict.get(detect1.lang)
+                    if langs:
+                        language_countries = language_countries | set(langs)
+                if detect2.confidence > 0.75:
+                    languages.add(detect2.lang)
+                    langs = languages_dict.get(detect2.lang)
+                    if langs:
+                        language_countries = language_countries | set(langs)
 
-            country_guesses = OrderedDict()  # Ordered dict so that countries put in first have highest priority
+                country_guesses = OrderedDict()  # Ordered dict so that countries put in first have highest priority
 
-            # If resultCountry was set, add them as the FIRST country guesses
-            if searchOptions['resultCountry']:
-                for country in [x[7:9].lower() for x in searchOptions['resultCountry']]:
-                    if country_guesses.get(country) is None:
-                        country_guesses[country] = country
+                # If resultCountry was set, add them as the FIRST country guesses
+                if searchOptions['resultCountry']:
+                    for country in [x[7:9].lower() for x in searchOptions['resultCountry']]:
+                        if country_guesses.get(country) is None:
+                            country_guesses[country] = country
 
-            # If searchCountry was set, add it as a guess SECOND
-            if searchOptions['searchCountry'] and country_guesses.get(searchOptions['searchCountry']) is None:
-                country_guesses[searchOptions['searchCountry']] = searchOptions['searchCountry']
+                # If searchCountry was set, add it as a guess SECOND
+                if searchOptions['searchCountry'] and country_guesses.get(searchOptions['searchCountry']) is None:
+                    country_guesses[searchOptions['searchCountry']] = searchOptions['searchCountry']
 
-            # Add tld country as a THIRD guess
-            if tld_country and country_guesses.get(tld_country) is None:
-                country_guesses[tld_country] = tld_country
+                # Add tld country as a THIRD guess
+                if tld_country and country_guesses.get(tld_country) is None:
+                    country_guesses[tld_country] = tld_country
 
-            # Then add the countries associated with the languages
-            if language_countries:
-                for country in language_countries:
-                    if country_guesses.get(country) is None:
-                        country_guesses[country] = country
+                # Then add the countries associated with the languages
+                if language_countries:
+                    for country in language_countries:
+                        if country_guesses.get(country) is None:
+                            country_guesses[country] = country
 
-            # Add the US, if it wasn't already in the list
-            if country_guesses.get('us') is None:
-                country_guesses['us'] = 'us'
+                # Add the US, if it wasn't already in the list
+                if country_guesses.get('us') is None:
+                    country_guesses['us'] = 'us'
 
-            coordinate = extractLocation.extract_location_from_site(url, languages, country_guesses)
-            scraping_coordinates.append(coordinate)
-            scraping_results.append((coordinate, url, return_name, domain))
+                coordinate = extractLocation.extract_location_from_site(url, languages, country_guesses)
+                scraping_coordinates.append(coordinate)
+                scraping_results.append((coordinate, url, return_name, domain))
 
     if ip_results:
         ip_results = reformat_results(ip_results)

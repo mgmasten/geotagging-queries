@@ -288,6 +288,10 @@ function plotAllMarkers(results) {
     plotMarkers('scraping', results.scraping, blueIcon, scrapingMarkersGroup);
   }
 
+  if (results.ip.length == 0 && results.scraping.length == 0) { // No results were found
+    addNonlocatedMessage('<b>No results were found!</b>');
+  }
+
   // Adjust map zoom to best see markers (dependent on whether search options are open)
   if ($('#searchOptions').css('display') == 'none') {
     mymap.setZoom(2);
