@@ -18,7 +18,10 @@ supported_countries = {'us', 'ca', 'au', 'my'}
 
 def ip_geolocate(domain):
     ip = socket.gethostbyname(domain)
-    r = requests.get(url='https://extreme-ip-lookup.com/json/' + ip)
+    try:
+        r = requests.get(url='https://extreme-ip-lookup.com/json/' + ip)
+    except:
+        return None
     coordinate = (r.json()['lat'], r.json()['lon'])
     return coordinate
 

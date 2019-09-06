@@ -152,7 +152,10 @@ def extract_location_from_site(url, languages, country_guesses):
     user_agent = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0)'
     request = Request(url)
     request.add_header('User-Agent', user_agent)
-    response = urlopen(request)
+    try:
+        response = urlopen(request)
+    except:
+        return None
     html = response.read()
     response.close()
 
@@ -179,7 +182,6 @@ def extract_location_from_site(url, languages, country_guesses):
             try:
                 contact_response = urlopen(contact_request)
             except:
-                print('Could not open url')
                 continue
             contact_html = contact_response.read()
             contact_response.close()
