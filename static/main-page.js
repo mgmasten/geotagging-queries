@@ -3,8 +3,8 @@
 
 // Define a red icon
 var redIcon = new L.Icon({
-  iconUrl: '/static/icons/marker-icon-2x-red.png',
-  shadowUrl: '/static/icons/marker-shadow.png',
+  iconUrl: '/static/mapMarkerIcons/marker-icon-2x-red.png',
+  shadowUrl: '/static/mapMarkerIcons/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -13,8 +13,8 @@ var redIcon = new L.Icon({
 
 // Define a blue icon
 var blueIcon = new L.Icon({
-  iconUrl: '/static/icons/marker-icon-2x-blue.png',
-  shadowUrl: '/static/icons/marker-shadow.png',
+  iconUrl: '/static/mapMarkerIcons/marker-icon-2x-blue.png',
+  shadowUrl: '/static/mapMarkerIcons/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
