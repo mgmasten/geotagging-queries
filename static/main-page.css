@@ -103,7 +103,7 @@ a.myLinks:active {
    width: 175px;
    height: 80px;
    background: #FFFFFF;
-   border:5px solid #ccc;
+   border:5px solid #9fa9ba;
    font-size: 10pt;
  }
 
@@ -133,11 +133,11 @@ a.myLinks:active {
    padding: 20px 10px 20px 10px;
    margin: 10px 10px 20px 10px;
    z-index: 1;
-   width: 180px;
+   width: 200px;
    height: 150px;
    background: #FFFFFF;
-   border:5px solid #ccc;
-   font-size: 8pt;
+   border:5px solid #9fa9ba;
+   font-size: 9pt;
  }
 
  .ul2 {
@@ -247,7 +247,6 @@ input:checked + .slider:before {
      display: flex;
      justify-content: center;
      align-items: center;
-     background-color: #ccc;
 }
 
 #loaderAndMessage {
