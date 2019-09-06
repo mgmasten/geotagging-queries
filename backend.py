@@ -103,11 +103,19 @@ def get_locations(query, numResults, ipAddress, scraping, searchOptions):
 
                 # Detect language of name and website name
                 if name is not None:
-                    detect1 = translator.detect(name)
                     return_name = name
+                    try:
+                        # One common reason this fails is because the names can include html
+                        detect1 = translator.detect(name)
+                    except:
+                        print('Could not detect language of ' + name)
                 else:
                     return_name = 'No name'
-                detect2 = translator.detect(website_name)
+
+                try:
+                    detect2 = translator.detect(website_name)
+                except:
+                    print('Could not detect language of ' + website_name)
 
                 languages = set()  # Language guesses for page
                 language_countries = set()  # Country guesses for page
