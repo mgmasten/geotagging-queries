@@ -67,7 +67,15 @@ def extractName(a):
         return name
 
 # Given the text of a webpage and a list of potential countries, try to find
-# a postalcode using regexes for that country
+# a postalcode using regexes for that country.
+# Regexes were created by combining the following sources:
+#       - Frank's Compulsive Guide to Postal Addresses (http://www.columbia.edu/~fdc/postal/)
+#       - This Stack Overflow post (http://cldr.unicode.org/index/downloads). See also location-data/postalcodes/regex/CLDR_regex
+#       - The geonames dataset (location-data/country-info.txt)
+
+# Uses geonames dataset (location-data/postalcodes, see geonames_readme.txt) to assign a lat/lon to a postalcode
+# Another option is https://nominatim.org/release-docs/develop/api/Search/, but coverage
+# was less comprehensive so I switched to the geonames dataset
 def find_location_from_page(webpage_text, country_guesses):
         for country in [x[0] for x in country_guesses.items()]:
             if country in backend.supported_countries:
