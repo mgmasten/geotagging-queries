@@ -3,15 +3,15 @@ import backend
 import os
 import time
 
+# Define a new subclass of app so that it can call functions upon initiation
+# The three dictionaries can be created upon server startup and held in memory until server shutdown
 class MyFlaskApp(Flask):
     def run(self, host=None, port=None, debug=None, load_dotenv=True, **options):
         if not self.debug or os.getenv('WERKZEUG_RUN_MAIN') == 'true':
             with self.app_context():
                 backend.create_languages_and_tlds_dict()
-                backend.create_country_dicts()
                 backend.create_postalcode_dict()
         super(MyFlaskApp, self).run(host=host, port=port, debug=debug, load_dotenv=load_dotenv, **options)
-
 
 app = MyFlaskApp(__name__)
 app.run()
@@ -25,7 +25,6 @@ def search():
 def map():
     data = request.get_json()
     results = backend.get_locations(data['query'], int(data['numResults']), data['ipAddress'], data['scraping'], data['searchOptions'])
-    # return jsonify(locations=results[0], frequencies=results[1], urls=results[2])
     return jsonify(results)
 
 

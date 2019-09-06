@@ -7,7 +7,6 @@ from difflib import SequenceMatcher
 import urllib.parse
 import backend
 
-
 us_region_codes = {'al', 'ak', 'as', 'az', 'ar', 'ca', 'co', 'ct', 'de', 'dc',
     'fl', 'ga', 'gu', 'hi', 'id', 'il', 'in', 'ia', 'ks', 'ky', 'la', 'me',
     'md', 'mh', 'ma', 'mi', 'fm', 'mn', 'ms', 'mo', 'mt', 'ne', 'nv', 'nh',
@@ -36,9 +35,10 @@ au_region_names = {'new south wales', 'queensland', 'south australia', 'tasmania
 my_region_names = {'penang', 'selangor', 'johor', 'sabah', 'sarawak', 'perak', 'kedah', 'pahang', 'kelantan', 'malacca', 'terengganu', 'negeri sembilan', 'perlis',
                     'kuala lumpur', 'labuan', 'putrajaya'}
 
-url_pattern = re.compile('(.*//)(.*?/)')
+url_pattern = re.compile('(.*//)(.*?/)') # Regex to separate out components of a url
 
 # Format: (regex, postalcode_index, [(capturing_group, valid_options), ...])
+# The regexes are gone through sequentially, and the idea is that the first one in the list is easiest/most common.
 regex_dict = {'us': [('([A-Z]{2})/s?(\d{5})([ \-]\d{4})?', 1, [(0, us_region_codes)]),
                      ('([A-Za-z]\.?[A-Za-z]\.?\s)(\d{5})([ \-]\d{4})?', 1, [(0, us_region_codes)]),
                      ('(,?[a-zA-Z ]{1,17}\s?)(\d{5})([ \-]\d{4})?', 1, [(0, us_region_names)])],
@@ -51,14 +51,12 @@ regex_dict = {'us': [('([A-Z]{2})/s?(\d{5})([ \-]\d{4})?', 1, [(0, us_region_cod
               'my': [('(\d{5})[a-zA-Z ]{1,20}\s([a-zA-Z]{5,11}([ ][a-zA-Z]{6,10})?)', 0, [(1, my_region_names)])]
 }
 
-nominatim_countries = {'us'}
-
+# Create a googletrans Translator
 translator = Translator()
 
+# a is the string of the full anchor HTML tag
+# Returns the text displayed for the link
 def extractName(a):
-    # a is the string of the full anchor HTML tag
-    # Returns the text displayed for the link
-
     start = a.find('>')
     end = a.find('</a>')
     name = a[start+1:end]
@@ -68,71 +66,45 @@ def extractName(a):
     else:
         return name
 
-
-def try_regex(webpage_text, pattern):
-    return re.findall(pattern, webpage_text)
-    # substring = pattern.search(webpage_text)
-    # if substring:
-    #     #print(webpage_text[substring.span()[0]:substring.span()[1]])
-    #     split_string = pattern.search(webpage_text).groups()
-    #     print(split_string)
-    #     return split_string
-    #
-    # else:
-    #     return []
-
-        # state_and_postalcode = text[substring.span()[0]:(substring.span()[1])]
-        # print(split_string)
-        # if split_string[0]:
-        #     region = re.sub('\.|\ ', '', split_string[0])
-        # if split_string[1]:
-        #     postalcode = split_string[1]
-        # if len(split_string) > 2 and split_string[2]:
-        #     postalcode += split_string[2]
-
-
+# Given the text of a webpage and a list of potential countries, try to find
+# a postalcode using regexes for that country
 def find_location_from_page(webpage_text, country_guesses):
         for country in [x[0] for x in country_guesses.items()]:
             if country in backend.supported_countries:
-                print(country)
                 for regex_entry in regex_dict[country]:
-                    #print(regex_entry)
+                    # Compile the regex and get all matches
                     pattern = re.compile(regex_entry[0])
-                    results = try_regex(webpage_text, pattern)
+                    results = re.findall(pattern, webpage_text)
 
                     if results:
                         for result in results:
-                            #print(result)
-                            #english_result = [x.text for x in translator.translate(result, dest='en')]
+                            # Ideally would translate words into english for matching with region names
+                            # Not currently working
+                            # english_result = [x.text for x in translator.translate(result, dest='en')]
                             english_result = result
                             valid = True
+                            # Make sure the text near the zipcode conforms to the restrictions (region names, etc)
                             for restriction in regex_entry[2]:
-                                print(re.sub(',|\.', '', english_result[restriction[0]].lower().strip()))
                                 text = re.sub(',|\.', '', english_result[restriction[0]].lower().strip())
                                 if text not in restriction[1]:
-                                    print('Not valid')
                                     valid = False
                                     break
 
                             if valid:
                                 postalcode = re.sub(',|\.|\ ', '', result[regex_entry[1]])
-                                # if country in nominatim_countries:
-                                #     nominatim_url = 'https://nominatim.openstreetmap.org/search?format=json&country=' + country.upper() + '&postalcode=' + postalcode
-                                #     nominatim_response = requests.get(nominatim_url)
-                                #     if nominatim_response.json():
-                                #         return (nominatim_response.json()[0]['lat'], nominatim_response.json()[0]['lon'])
-                                # elif country == 'ca':
-                                    #return backend.postalcode_dict[country][postalcode]
                                 location = backend.postalcode_dict[country].get(postalcode)
                                 if location:
                                     return location
 
         return None
 
+# Generate many possible translations of the word "contact" into the candidate languages
+# Try to find a noun, verb, and adjective version by finding the similar words between different sentences
 def generate_contact_translations(page_languages):
     ret_translations = {'contact'}
     for page_language in page_languages:
         translations = translator.translate(['contact', 'contact us', 'contact them', 'contact information', 'contact page', 'I want contact', 'there was contact'], src='en', dest=page_language)
+
         ret_translations.add(translations[0].text.lower())
         contact_us = translations[1].text.lower()
         contact_them = translations[2].text.lower()
@@ -141,16 +113,19 @@ def generate_contact_translations(page_languages):
         I_want_contact = translations[5].text.lower()
         there_was_contact = translations[6].text.lower()
 
+        # Find verb version
         start1, start2, length = SequenceMatcher(None, contact_us, contact_them).find_longest_match(0, len(contact_us), 0, len(contact_them))
         if length > 0:
             contact_verb = contact_us[start1:start1+length].strip()
             ret_translations.add(contact_verb)
 
+        # Find adjective version
         start1, start2, length = SequenceMatcher(None, contact_info, contact_page).find_longest_match(0, len(contact_info), 0, len(contact_page))
         if length > 0:
             contact_adjective = contact_info[start1:start1+length].strip()
             ret_translations.add(contact_verb)
 
+        # Find noun version
         start1, start2, length = SequenceMatcher(None, I_want_contact, there_was_contact).find_longest_match(0, len(I_want_contact), 0, len(there_was_contact))
         if length > 0:
             contact_noun = I_want_contact[start1:start1+length].strip()
@@ -158,11 +133,14 @@ def generate_contact_translations(page_languages):
 
     return ret_translations
 
-# url = 'https://catholicmasstime.org/church/our-lady-of-lavang/15698/'
-def extract_owner_location(url, languages, country_guesses):
-    print('URL: ', url)
+# Tries to return a lat/lon coordinate given a url, likely languages for the page, and
+# likely country of origin
+# Looks for a physical address first on suspected "contact" pages ("contact us", etc)
+# and then on the home page itself
+def extract_location_from_site(url, languages, country_guesses):
     location = None
 
+    # Set up browser
     user_agent = 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0)'
     request = Request(url)
     request.add_header('User-Agent', user_agent)
@@ -170,40 +148,24 @@ def extract_owner_location(url, languages, country_guesses):
     html = response.read()
     response.close()
 
+    # Scrape the page
     soup = BeautifulSoup(html, 'html.parser')
     page_text = soup.get_text()
 
+    # Split the url into its pieces to get the root
     split_url = url_pattern.search(url).groups()
-    url_prefix = split_url[0]
     url_root = split_url[0] + split_url[1]
-    #print('Prefix: ' + url_prefix)
-    #print('Root: ' + url_root)
 
+    # Translations of the word "contact" in likely page languages
     contact_translations = generate_contact_translations(languages)
 
     # Try to find a "contact" page
     for link in soup.find_all('a'):
-        name = extractName(str(link))
+        name = extractName(str(link)) # Get displayed name from tag
         if name and any([x in name.lower() for x in contact_translations]):
-            # if '//' in link['href']:
-            #     if link['href'][0:2] == '//':
-            #         contact_url = url_prefix + link['href']
-            #     else:  # Is absolute
-            #         contact_url = link['href']
-            # else:
-            #     if link['href'][0:3] == 'www':
-            #         contact_url = link['href']
-            #     if link['href'][0] == '/': # Relative to root folder
-            #         contact_url = url_root + link['href']
-            #     elif link['href'][0] =='#': # This page
-            #         contact_url = url + '/' + link['href']
-            #     else:  # Relative to this page
-            #         contact_url = url + '/' + link['href']
-            print('Contact link name: ', name)
             contact_url = urllib.parse.urljoin(url_root, link['href'])
 
-            print('link: ' + contact_url)
-
+            # Access and scrape contact page
             contact_request = Request(contact_url)
             contact_request.add_header('User-Agent', user_agent)
             try:
@@ -213,17 +175,15 @@ def extract_owner_location(url, languages, country_guesses):
                 continue
             contact_html = contact_response.read()
             contact_response.close()
-            # contact_html = requests.get(contact_url)
 
             contact_soup = BeautifulSoup(contact_html, 'html.parser')
             contact_page_text = contact_soup.get_text()
 
+            # Try to find a coordinate given the text of the "contact" page
             location = find_location_from_page(contact_page_text, country_guesses)
             if location:
-                print(location)
                 return location
 
-
+    # Try to find a coordinate given the text of the page itself
     location = find_location_from_page(page_text, country_guesses)
-    print(location)
     return location
