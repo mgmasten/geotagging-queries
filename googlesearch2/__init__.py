@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 
 # googlesearch2 is basically the googlesearch package by Mario Vilas, with
-# slight alterations to the search function. Changes are:
-#       * search now returns a list, not a Generator
-#       * returns the name displayed on google, as well as the urls
-#       * allows extra parameters to have multiple values (for boolean operations)
-#       * using cookies is now optional rather than mandatory
+# slight alterations to the search function (and get_page, in the case of cookies).
+# Changes are:
+#       * Search now returns a list, not a Generator
+#       * Search returns the name displayed on Google, as well as the urls
+#       * Search allows extra parameters to have multiple values (for boolean operations)
+#       * Using cookies is now optional rather than mandatory
+#       * The default search language is nothing rather than English
+#       * The domains passed in can be included (restricted to those domains) or excluded
 # Changes by Matti Masten
 
 # googlesearch copyright info:
@@ -141,13 +144,14 @@ def get_random_user_agent():
 
 
 # Request the given URL and return the response page, using the cookie jar.
-def get_page(url, user_agent=None):
+def get_page(url, user_agent=None, cookies=False):
     """
     Request the given URL and return the response page, using the cookie jar.
 
     :param str url: URL to retrieve.
     :param str user_agent: User agent for the HTTP requests.
         Use None for the default.
+    :param str cookies: Boolean determining whether cookies are used
 
     :rtype: str
     :return: Web page retrieved for the given URL.
@@ -160,16 +164,18 @@ def get_page(url, user_agent=None):
         user_agent = USER_AGENT
     request = Request(url)
     request.add_header('User-Agent', user_agent)
-    cookie_jar.add_cookie_header(request)
-    #print('Request:', request.__dict__)
+    if cookies:
+        cookie_jar.add_cookie_header(request)
     response = urlopen(request)
-    cookie_jar.extract_cookies(response, request)
+    if cookies:
+        cookie_jar.extract_cookies(response, request)
     html = response.read()
     response.close()
-    try:
-        cookie_jar.save()
-    except Exception:
-        pass
+    if cookies:
+        try:
+            cookie_jar.save()
+        except Exception:
+            pass
     return html
 
 
@@ -290,7 +296,7 @@ def search(query, tld='com', lang='', tbs='0', safe='off', num=10, cookies=False
 
     if cookies:
     	# Grab the cookie from the home page.
-    	get_page(url_home % vars(), user_agent)
+    	get_page(url_home % vars(), user_agent, cookies)
 
     # Prepare the URL of the first request.
     if start:
@@ -328,7 +334,7 @@ def search(query, tld='com', lang='', tbs='0', safe='off', num=10, cookies=False
         print(url)
         print()
         # Request the Google Search results page.
-        html = get_page(url, user_agent)
+        html = get_page(url, user_agent, cookies)
         #print(html)
 
         # Parse the response and process every anchored URL.

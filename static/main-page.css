@@ -1,3 +1,4 @@
+/* General */
 html, body {
    height: 100%;
    margin: 2%;
@@ -5,14 +6,50 @@ html, body {
    text-align: center;
 }
 
-#mapId {
-     height: 90%;
-     width: 90%;
-     margin: 1% auto 1% auto; /* top, right, bottom, left */
-     z-index: 0;
-     float: none;
- }
+.chosen-choices {
+    max-height: 50px;
+}
 
+.submitButton {
+     -moz-appearance: none;
+     -webkit-appearance: none;
+     width: 100px;
+     height: 35px;
+     background: #2196F3;
+     padding: 0px 0px 2px 0px;
+     vertical-align: top;
+     font-size: 14pt;
+     font-weight: normal;
+     color: #fff;
+     border: 1px solid #ccc;
+     border-radius: 5%;
+}
+
+.smallSpace {
+     display: inline-block;
+     width: 5px;
+}
+
+/* Links */
+a.myLinks:link {
+  text-decoration: none;
+}
+
+a.myLinks:visited {
+  color: #935A95;
+}
+
+a.myLinks:hover {
+  text-decoration: underline;
+}
+
+a.myLinks:active {
+  color: green;
+}
+
+
+
+/* Basic input form */
 #query {
      width: 500px;
      height: 30px;
@@ -33,6 +70,90 @@ html, body {
      font-size: 14pt;
 }
 
+#geolocationMethod {
+  font-size: 14pt;
+}
+
+
+
+/* Map */
+#mapId {
+     height: 90%;
+     width: 90%;
+     margin: 1% auto 1% auto; /* top, right, bottom, left */
+     z-index: 0;
+     float: none;
+ }
+
+ #mapAndOptionsContainer {
+      height: 60%
+ }
+
+ #mapLanguage {
+      position: relative;
+      margin: 0 auto 0 auto;
+      width: 40%;
+      top: 105%;
+ }
+
+ #legend {
+   margin: 10px 10px 10px 10px;
+   padding: 10px 10px 10px 10px;
+   z-index: 1;
+   width: 175px;
+   height: 80px;
+   background: #FFFFFF;
+   border:5px solid #ccc;
+   font-size: 10pt;
+ }
+
+ .legendIcon {
+   width: 15px;
+   height: 25px;
+ }
+
+ /* Results display */
+ li{
+   margin: 10px 0;
+ }
+
+ .domain {
+   color: #aaa;
+   font-size: 8pt;
+   white-space: pre;
+ }
+
+ .resultsDisplay {
+   display: none;
+ }
+
+ #nonlocatedDisplay {
+   visibility: hidden; /* Only appears if there are nonlocated results */
+   overflow: auto;
+   padding: 20px 10px 20px 10px;
+   margin: 10px 10px 20px 10px;
+   z-index: 1;
+   width: 180px;
+   height: 150px;
+   background: #FFFFFF;
+   border:5px solid #ccc;
+   font-size: 8pt;
+ }
+
+ .ul2 {
+   padding-left: 20px;
+   padding-right: 10px;
+ }
+
+
+
+/* Search options */
+#searchOptions {
+     display: none;
+     float: right;
+     width: 45%;
+}
+
 #toggleSearchOptions {
   height: 20px;
   width: 150px;
@@ -47,92 +168,7 @@ html, body {
   width: 15%;
 }
 
-.submitButton {
-     -moz-appearance: none;
-     -webkit-appearance: none;
-     width: 100px;
-     height: 35px;
-     background: #2196F3;
-     padding: 0px 0px 2px 0px;
-     vertical-align: top;
-     font-size: 14pt;
-     font-weight: normal;
-     color: #fff;
-     border: 1px solid #ccc;
-     border-radius: 5%;
-}
-
-#mapAndOptionsContainer {
-     height: 60%
-}
-
-#mapLanguage {
-     position: relative;
-     margin: 0 auto 0 auto;
-     width: 40%;
-     top: 105%;
-}
-#searchOptions {
-     display: none;
-     float: right;
-     width: 45%;
-}
-
-.chosen-choices {
-    max-height: 50px;
-}
-
-#loaderContainer {
-     visibility: hidden; /* Only appears during loading */
-     height: 75%;
-     width: 60%;
-     position: absolute;
-     top: 19%;
-     left: 4%;
-     margin: 0% 15% 0% 15%;
-     z-index: 1;
-     display: flex;
-     justify-content: center;
-     align-items: center;
-}
-
-#loaderAndMessage {
-     height: 300px;
-     width: 300px;
-}
-
-.loader {
-     float: top;
-     border-top: 16px solid #010000; /* Black */
-     border-radius: 50%;
-     width: 150px;
-     height: 150px;
-     margin: 0 25% 0 25%;
-     animation: spin 4s linear infinite;
-}
-
-.loadingMessage {
-     font-size: x-large;
-     font-weight: bold;
-     float: bottom;
-     margin: 10% 0 0 0;
-}
-
-.smallSpace {
-     display: inline-block;
-     width: 5px;
-}
-
-@-webkit-keyframes spin {
-     0% { -webkit-transform: rotate(0deg); }
-     100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-     0% { transform: rotate(0deg); }
-     100% { transform: rotate(360deg); }
-}
-
+/* SLIDER */
 /* The switch - the box around the slider */
 .switch {
  position: relative;
@@ -197,6 +233,58 @@ input:checked + .slider:before {
  border-radius: 50%;
 }
 
+
+/* Loader */
+#loaderContainer {
+     visibility: hidden; /* Only appears during loading */
+     height: 75%;
+     width: 60%;
+     position: absolute;
+     top: 19%;
+     left: 4%;
+     margin: 0% 15% 0% 15%;
+     z-index: 1;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background-color: #ccc;
+}
+
+#loaderAndMessage {
+     height: 300px;
+     width: 300px;
+}
+
+.loader {
+     float: top;
+     border-top: 16px solid #010000; /* Black */
+     border-radius: 50%;
+     width: 150px;
+     height: 150px;
+     margin: 0 25% 0 25%;
+     animation: spin 4s linear infinite;
+}
+
+.loadingMessage {
+     font-size: x-large;
+     font-weight: bold;
+     float: bottom;
+     margin: 10% 0 0 0;
+}
+
+@-webkit-keyframes spin {
+     0% { -webkit-transform: rotate(0deg); }
+     100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+     0% { transform: rotate(0deg); }
+     100% { transform: rotate(360deg); }
+}
+
+
+
+/* Tooltips */
 .infoTooltip {
      width: 15px;
      height: 15px;
@@ -262,34 +350,4 @@ input:checked + .slider:before {
 .note {
      font-size: 8pt;
      border-bottom: 1px dotted black;
-}
-
-li{
-  margin: 10px 0;
-}
-
-a.myLinks:link {
-  text-decoration: none;
-}
-
-a.myLinks:visited {
-  color: #935A95;
-}
-
-a.myLinks:hover {
-  text-decoration: underline;
-}
-
-a.myLinks:active {
-  color: green;
-}
-
-.domain {
-  color: #aaa;
-  font-size: 8pt;
-  white-space: pre;
-}
-
-.resultsDisplay {
-  display: none;
 }

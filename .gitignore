@@ -1,3 +1,6 @@
 __pycache__/
+.DS_Store
 googlesearch2/__pycache__
 googlesearch2/.DS_Store
+location-data/.DS_Store
+location-data/geonames/.DS_Store
