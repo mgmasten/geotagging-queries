@@ -33,7 +33,7 @@ au_region_names = {'new south wales', 'queensland', 'south australia', 'tasmania
                     'jervis bay territory', 'northern territory', 'ashmore and cartier islands', 'coral sea islands'}
 
 my_region_names = {'penang', 'selangor', 'johor', 'sabah', 'sarawak', 'perak', 'kedah', 'pahang', 'kelantan', 'malacca', 'terengganu', 'negeri sembilan', 'perlis',
-                    'kuala lumpur', 'labuan', 'putrajaya'}
+                    'kuala lumpur', 'labuan', 'putrajaya', 'malaysia'}
 
 url_pattern = re.compile('(.*//)(.*?/)') # Regex to separate out components of a url
 
@@ -48,7 +48,7 @@ regex_dict = {'us': [('([A-Z]{2})/s?(\d{5})([ \-]\d{4})?', 1, [(0, us_region_cod
               'au': [('([A-Z]{2,3})\s?(\d{4})', 1, [(0, au_region_codes)]),
                     ('([A-Za-z]{2,3})\s?(\d{4})', 1, [(0, au_region_codes)]),
                     ('(,?[a-zA-Z ]{1,30}),?\s?(\d{4})', 1, [(0, au_region_names)])],
-              'my': [('(\d{5})[a-zA-Z ]{1,20}\s([a-zA-Z]{5,11}([ ][a-zA-Z]{6,10})?)', 0, [(1, my_region_names)])]
+              'my': [('(\d{5})\s[a-zA-Z ]{1,20},?\s*([a-zA-Z]{5,11}([ ][a-zA-Z]{6,10})?)', 0, [(1, my_region_names)])]
 }
 
 # Create a googletrans Translator
@@ -77,34 +77,36 @@ def extractName(a):
 # Another option is https://nominatim.org/release-docs/develop/api/Search/, but coverage
 # was less comprehensive so I switched to the geonames dataset
 def find_location_from_page(webpage_text, country_guesses):
-        for country in [x[0] for x in country_guesses.items()]:
-            if country in backend.supported_countries:
-                for regex_entry in regex_dict[country]:
-                    # Compile the regex and get all matches
-                    pattern = re.compile(regex_entry[0])
-                    results = re.findall(pattern, webpage_text)
+    print(webpage_text)
+    for country in [x[0] for x in country_guesses.items()]:
+        if country in backend.supported_countries:
+            for regex_entry in regex_dict[country]:
+                # Compile the regex and get all matches
+                pattern = re.compile(regex_entry[0])
+                results = re.findall(pattern, webpage_text)
 
-                    if results:
-                        for result in results:
-                            # Ideally would translate words into english for matching with region names
-                            # Not currently working
-                            # english_result = [x.text for x in translator.translate(result, dest='en')]
-                            english_result = result
-                            valid = True
-                            # Make sure the text near the zipcode conforms to the restrictions (region names, etc)
-                            for restriction in regex_entry[2]:
-                                text = re.sub(',|\.', '', english_result[restriction[0]].lower().strip())
-                                if text not in restriction[1]:
-                                    valid = False
-                                    break
+                if results:
+                    for result in results:
+                        print(result)
+                        # Ideally would translate words into english for matching with region names
+                        # Not currently working
+                        # english_result = [x.text for x in translator.translate(result, dest='en')]
+                        english_result = result
+                        valid = True
+                        # Make sure the text near the zipcode conforms to the restrictions (region names, etc)
+                        for restriction in regex_entry[2]:
+                            text = re.sub(',|\.|<br>|<b>|</b>|"', '', english_result[restriction[0]].lower().strip())
+                            if text not in restriction[1]:
+                                valid = False
+                                break
 
-                            if valid:
-                                postalcode = re.sub(',|\.|\ ', '', result[regex_entry[1]])
-                                location = backend.postalcode_dict[country].get(postalcode)
-                                if location:
-                                    return location
+                        if valid:
+                            postalcode = re.sub(',|\.|\ ', '', result[regex_entry[1]])
+                            location = backend.postalcode_dict[country].get(postalcode)
+                            if location:
+                                return location
 
-        return None
+    return None
 
 # Generate many possible translations of the word "contact" into the candidate languages
 # Try to find a noun, verb, and adjective version by finding the similar words between different sentences
@@ -131,13 +133,13 @@ def generate_contact_translations(page_languages):
         start1, start2, length = SequenceMatcher(None, contact_info, contact_page).find_longest_match(0, len(contact_info), 0, len(contact_page))
         if length > 0:
             contact_adjective = contact_info[start1:start1+length].strip()
-            ret_translations.add(contact_verb)
+            ret_translations.add(contact_adjective)
 
         # Find noun version
         start1, start2, length = SequenceMatcher(None, I_want_contact, there_was_contact).find_longest_match(0, len(I_want_contact), 0, len(there_was_contact))
         if length > 0:
             contact_noun = I_want_contact[start1:start1+length].strip()
-            ret_translations.add(contact_verb)
+            ret_translations.add(contact_noun)
 
     return ret_translations
 
