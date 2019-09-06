@@ -154,7 +154,9 @@ function submission() {
   var dateRestrict = 'qdr:' + $('#dateUnit').chosen().val() + document.getElementById('dateNumber').value;
 
   // Make loader visible
-  $('#loaderContainer').css('visibility', 'visible');
+  $('#errorMessage').css('visibility', 'hidden');
+  $('#loaderAndMessage').css('visibility', 'visible');
+
 
   // Hide and clear the box of results that couldn't be geolocated
   if ($('#nonlocatedDisplay').length) {
@@ -190,8 +192,13 @@ function submission() {
     contentType: 'application/json',
     success: function(data) {
       // Hide loader
-      $('#loaderContainer').css('visibility', 'hidden');
+      $('#loaderAndMessage').css('visibility', 'hidden');
       plotAllMarkers(data);
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      // Hide loader and display error message
+      $('#loaderAndMessage').css('visibility', 'hidden');
+      $('#errorMessage').css('visibility', 'visible')
     }
   });
 }

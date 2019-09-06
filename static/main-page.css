@@ -235,7 +235,7 @@ input:checked + .slider:before {
 
 
 /* Loader */
-#loaderContainer {
+.loaderContainer {
      visibility: hidden; /* Only appears during loading */
      height: 75%;
      width: 60%;
@@ -280,6 +280,7 @@ input:checked + .slider:before {
      0% { transform: rotate(0deg); }
      100% { transform: rotate(360deg); }
 }
+
 
 
 
