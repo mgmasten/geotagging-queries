@@ -240,7 +240,7 @@ input:checked + .slider:before {
      height: 75%;
      width: 60%;
      position: absolute;
-     top: 19%;
+     top: 25%;
      left: 4%;
      margin: 0% 15% 0% 15%;
      z-index: 1;
