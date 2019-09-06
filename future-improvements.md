@@ -19,3 +19,5 @@
 ## UI
 * It would be nice to have some sort of visual link between the two markers for a site. Like, when you mouse over one, the other is highlighted.
 * A favicon!
+* Give a percent progress with the loader
+* Distinguish between a backend error and a long query (display a message rather than just continuing the spinning)
