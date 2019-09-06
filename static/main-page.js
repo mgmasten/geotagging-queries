@@ -272,7 +272,7 @@ function plotAllMarkers(results) {
   scrapingMarkersGroup.clearLayers();
 
   // Initialize
-  nonlocatedMessage = '<b>Could not scrape location of:</b><br><br><ul class="ul2">';
+  nonlocatedMessage = '<b>Could not extract location from:</b><br><br><ul class="ul2">';
   locationFailure = false;
 
   // Plot ip location results, if they exist
