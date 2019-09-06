@@ -102,6 +102,8 @@ def get_locations(query, numResults, ipAddress, scraping, searchOptions):
                 website_name = domain[substring.span()[0]:(substring.span()[1] - 1)]
 
                 # Detect language of name and website name
+                detect1 = None
+                detect2 = None
                 if name is not None:
                     return_name = name
                     try:
@@ -138,7 +140,7 @@ def get_locations(query, numResults, ipAddress, scraping, searchOptions):
                     langs = languages_dict.get(detect1.lang)
                     if langs:
                         language_countries = language_countries | set(langs)
-                if detect2.confidence > 0.75:
+                if detect2 and detect2.confidence > 0.75:
                     languages.add(detect2.lang)
                     langs = languages_dict.get(detect2.lang)
                     if langs:

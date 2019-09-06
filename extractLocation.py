@@ -111,7 +111,10 @@ def find_location_from_page(webpage_text, country_guesses):
 def generate_contact_translations(page_languages):
     ret_translations = {'contact'}
     for page_language in page_languages:
-        translations = translator.translate(['contact', 'contact us', 'contact them', 'contact information', 'contact page', 'I want contact', 'there was contact'], src='en', dest=page_language)
+        try:
+            translations = translator.translate(['contact', 'contact us', 'contact them', 'contact information', 'contact page', 'I want contact', 'there was contact'], src='en', dest=page_language)
+        except:
+            return ret_translations
 
         ret_translations.add(translations[0].text.lower())
         contact_us = translations[1].text.lower()
