@@ -14,7 +14,6 @@ class MyFlaskApp(Flask):
         super(MyFlaskApp, self).run(host=host, port=port, debug=debug, load_dotenv=load_dotenv, **options)
 
 app = MyFlaskApp(__name__)
-app.run()
 
 @app.route('/')
 def search():
@@ -29,4 +28,4 @@ def map():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
