@@ -41,6 +41,9 @@ def reformat_results(results):
 # if ipAddress is True, the IP address method is used for geolocation
 # if scraping is True, the scraping method is used for geolocation
 def get_locations(query, numResults, ipAddress, scraping, searchOptions):
+    create_languages_and_tlds_dict()
+    create_postalcode_dict()
+
     ip_results = []
     ip_coordinates = []
 
